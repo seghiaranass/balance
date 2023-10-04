@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="balance_view_form" model="ir.ui.view">
+        <field name="name">balance.form</field>
+        <field name="model">balance</field>
+        <field name="arch" type="xml">
+            <form string="Balance" >
+                <header>
+                    <field name="state" widget="statusbar" clickable="True"/>
+            
+                    <!-- Buttons to Change Status -->
+                    <button name="set_to_validate" string="Validate" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="set_to_paid" string="Mark as Paid" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'validate')]}"/>
+                    <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': [('state', 'not in', ['validate', 'paid'])]}"/>
+                </header>
+
+                <sheet>
+                    <h1>
+                        <group>
+                            <field name="reference" />
+                        </group>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="customer_name" options="{'no_create': True}" />
+                        </group>
+                        <group>
+                            <field name="created_datetime" />
+                        </group>
+                        <group>
+                            <field name="amount" />
+                        </group>
+                        <group>
+                            <field name="payment_type"/>
+                        </group>
+                        <group>
+                            <field name="balance" />
+                        </group>
+                        <group>
+                            <field name="description" widget="html" placeholder="Add notes..."/>
+                        </group>
+                    </group>
+                </sheet>
+
+
+
+            </form>
+
+
+
+        </field>
+
+    </record>
+
+    <record id="balance_view_tree" model="ir.ui.view">
+        <field name="name">balance.tree</field>
+        <field name="model">balance</field>
+        <field name="arch" type="xml">
+            <tree string="Balance" decoration-danger="created_datetime &lt; current_date and state not in ['paid']" class="balance_view_">
+                <field name="reference" />
+                <field name="customer_name" />
+                <field name="created_datetime"  />
+                <field name="amount" />
+                <field name="payment_type"/>
+                <field name="balance" />
+                 <field name="state" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    
+
+
+
+    <record id="balance_action" model="ir.actions.act_window">
+        <field name="name">Properties</field>
+        <field name="res_model">balance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="balance_action_with_fetch" model="ir.actions.act_window">
+        <field name="name">Balance with Fetch</field>
+        <field name="res_model">balance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_fetch_invoices" model="ir.actions.server">
+        <field name="name">Fetch Invoices</field>
+        <field name="model_id" ref="model_balance"/>
+        <field name="state">code</field>
+        <field name="code">
+            env['balance'].fetch_invoice_data()
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Balance with Fetch',
+    'res_model': 'balance',
+    'view_mode': 'tree,form',
+}
+        </field>
+    </record>
+    
+    
+
+
+    <!-- <record id="account_move_posted_action" model="ir.actions.server">
+        <field name="name">Create Balance on Invoice Post</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">
+            if record.state == 'posted' and record.move_type == 'out_invoice':
+                # Change the below code according to what details you want to fetch
+                vals = {
+                    'reference': record.name,
+                    'created_datetime': record.invoice_date_due,
+                    'amount': record.amount_residual,
+                    # Add other fields if needed...
+                }
+                env['balance'].create(vals)
+        </field>
+    </record> -->
+    
+
+    <!-- <record id="account_move_posted_trigger" model="base.automation">
+        <field name="name">Trigger on Invoice Post</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="trigger">on_write</field>
+        <field name="trg_date_id" ref="account.field_account_move__state"/>
+        <field name="action_server_id" ref="account_move_posted_action"/>
+        <field name="active" eval="True"/>
+        <field name="filter_domain">[('state','=','posted'),('move_type','=','out_invoice')]</field>
+    </record> -->
+    
+    
+</odoo>
