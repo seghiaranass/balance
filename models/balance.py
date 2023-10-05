@@ -1,5 +1,9 @@
 from odoo import fields, models, api, _
-from datetime import datetime
+from datetime import datetime ,timedelta
+from calendar import monthrange
+import logging
+_logger = logging.getLogger(__name__)
+
 class Balance(models.Model):
     _name = "balance"
     _sql_constraints = [
@@ -44,6 +48,7 @@ class Balance(models.Model):
     
 
     balance_correction = fields.Boolean(string="Balance Correction", default=False)
+
 
 
     @api.depends('reference')
@@ -145,10 +150,14 @@ class Balance(models.Model):
     @api.model
     def create(self, vals):
         if 'created_datetime' in vals:
-            selected_date = fields.Datetime.from_string(vals['created_datetime']).date()
+            adjusted_datetime = fields.Datetime.from_string(vals['created_datetime']) + timedelta(hours=1)
+            selected_date = adjusted_datetime.date()
+
+            # selected_date = fields.Datetime.from_string(vals['created_datetime']).date()
             current_time = fields.Datetime.from_string(fields.Datetime.now()).time()
             combined_datetime = datetime.combine(selected_date, current_time)
             vals['created_datetime'] = combined_datetime
+
         rec = super(Balance, self).create(vals)
 
         # Check if the new record has 'balance_correction' set to True
@@ -196,6 +205,7 @@ class Balance(models.Model):
                 }
                 # This will invoke the create method which already recomputes the balance
                 self.create(vals)
+
 
     def set_to_validate(self):
         self.write({'state': 'validate'})

@@ -99,7 +99,7 @@
                 <field name="reference"  class="fw-bolder"  />
                 <field name="customer_name" />
                 <field name="balance_tags_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                <field name="created_datetime"  class="balance_view_created_datetime fw-bolder" widget="date"/>
+                <field name="created_datetime"  class="balance_view_created_datetime fw-bolder" />
                 <field name="payment_type"/>
                 <field  name="amount" class="balance_view_amount fw-bolder" decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0"/>
                 <field name="balance" decoration-danger="balance &lt; 0" class="fw-bolder"/>
