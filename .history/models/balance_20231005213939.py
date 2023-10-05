@@ -18,7 +18,6 @@ class Balance(models.Model):
     _rec_name = 'display_name'
 
     create_uid = fields.Many2one('res.users', 'Created by')
-    creator_image = fields.Binary(related='create_uid.image_1920', string="Creator's Image", readonly=True)
 
     reference = fields.Char(required=True,track_visibility='always')
     created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now)
