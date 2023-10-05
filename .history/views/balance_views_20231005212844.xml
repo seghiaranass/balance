@@ -97,7 +97,7 @@
         <field name="arch" type="xml">
             <tree string="Balance" decoration-muted="balance_correction==True" decoration-danger="created_datetime &lt; current_date and state not in ['paid']" class="balance_view_">
                 <field name="reference"  class="fw-bolder"  />
-                <field name="customer_image" class="balance_view_customer_image" widget='image' options="{'size': [80, 35]}"/>
+                <field name="customer_image" class="balance_view_customer_image" widget='image' options="{'size': [70, 25]}"/>
                 <field name="customer_name" />
                 <field name="balance_tags_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="created_datetime"  class="balance_view_created_datetime fw-bolder" widget="date"/>
