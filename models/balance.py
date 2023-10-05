@@ -1,15 +1,19 @@
-from odoo import fields, models, api 
+from odoo import fields, models, api, _
 from datetime import datetime
 class Balance(models.Model):
     _name = "balance"
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _sql_constraints = [
+    ('unique_reference', 'UNIQUE(reference)', _('Reference must be unique.')),
+    ]
     
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
     _description = "This model for calculationg balance every add or modification"
     _order = 'created_datetime desc'
 
+    _rec_name = 'display_name'
 
-
-    reference = fields.Char(required=True)
+    reference = fields.Char(required=True,track_visibility='always')
     created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now)
     modified_datetime = fields.Datetime(string="Modified Date", readonly=True)
     amount = fields.Float(required=True)
@@ -40,6 +44,13 @@ class Balance(models.Model):
     
 
     balance_correction = fields.Boolean(string="Balance Correction", default=False)
+
+
+    @api.depends('reference')
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record.reference or ''
+
 
 
     # @api.depends('amount', 'created_datetime')
@@ -99,6 +110,14 @@ class Balance(models.Model):
     def write(self, vals):
         recalculate_balance = False
 
+        if 'created_datetime' in vals:
+            selected_date = fields.Datetime.from_string(vals['created_datetime']).date()
+            current_time = fields.Datetime.from_string(fields.Datetime.now()).time()
+            combined_datetime = datetime.combine(selected_date, current_time)
+            vals['created_datetime'] = combined_datetime
+
+
+
         # Check if the record being modified has 'amount', 'created_datetime' or 'balance_correction'
         if 'amount' in vals or 'created_datetime' in vals or 'balance_correction' in vals:
             recalculate_balance = True
@@ -125,6 +144,11 @@ class Balance(models.Model):
 
     @api.model
     def create(self, vals):
+        if 'created_datetime' in vals:
+            selected_date = fields.Datetime.from_string(vals['created_datetime']).date()
+            current_time = fields.Datetime.from_string(fields.Datetime.now()).time()
+            combined_datetime = datetime.combine(selected_date, current_time)
+            vals['created_datetime'] = combined_datetime
         rec = super(Balance, self).create(vals)
 
         # Check if the new record has 'balance_correction' set to True

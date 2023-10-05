@@ -47,11 +47,9 @@
                         </group>
 
                     </group>
-                    <group>
                         <group>
                             <field name="description" widget="html" placeholder="Add notes..."/>
                         </group>
-                    </group>
                 </sheet>
 
                 <div class="oe_chatter">
@@ -89,13 +87,13 @@
 
 
     <record id="balance_action" model="ir.actions.act_window">
-        <field name="name">Properties</field>
+        <field name="name">Payments</field>
         <field name="res_model">balance</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <record id="balance_action_with_fetch" model="ir.actions.act_window">
-        <field name="name">Balance with Fetch</field>
+        <field name="name">Payments</field>
         <field name="res_model">balance</field>
         <field name="view_mode">tree,form</field>
     </record>
