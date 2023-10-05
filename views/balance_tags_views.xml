@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="balance_tags_view_tree" model="ir.ui.view">
+        <field name="name">balance.tags.tree</field>
+        <field name="model">balance.tags</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="balance_tags_view_form" model="ir.ui.view">
+        <field name="name">balance.tags.form</field>
+        <field name="model">balance.tags</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="color" widget="color_picker"/>
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>

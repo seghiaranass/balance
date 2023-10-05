@@ -4,6 +4,9 @@
     'data': [
         'security/ir.model.access.csv',
         'views/balance_views.xml',
+        'views/balance_tags_views.xml',
+        'views/balance_actions.xml',
+        'views/balance_tags_actions.xml',
         'views/balance_menus.xml',
     ],
     'images': ['static/description/icon.png'],
