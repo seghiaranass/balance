@@ -57,7 +57,7 @@ class Balance(models.Model):
     def _compute_creator_display(self):
         for rec in self:
             image_url = "/web/image?model=res.users&id=%s&field=image_1920" % rec.create_uid.id
-            rec.creator_display = '<img src="%s" style="width: 19px; height: 19px;  border-radius:50%%; vertical-align: middle; margin-right: 5px;"/> %s' % (image_url, rec.create_uid.name)
+            rec.creator_display = '<img src="%s" style="width: 19px; height: 19px; border-radius: 50%; vertical-align: middle; margin-right: 5px;"/> %s' % (image_url, rec.create_uid.name)
 
     @api.depends('reference')
     def _compute_display_name(self):
