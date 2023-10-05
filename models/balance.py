@@ -21,45 +21,111 @@ class Balance(models.Model):
             ('prelevement', 'Prélèvement'),
             ('autre', 'Autre'),
         ], string='Payment Type', default='virement')
+        
     
     state = fields.Selection([
         ('draft', 'Draft'),
         ('validate', 'Validated'),
         ('paid', 'Paid'),
         ], string='Status', readonly=True, default='draft')
+    
 
-    @api.depends('amount', 'created_datetime')
+    balance_correction = fields.Boolean(string="Balance Correction", default=False)
+
+
+    # @api.depends('amount', 'created_datetime')
+    # def _compute_balance(self):
+    #     # Fetching all records up to the current one
+    #     all_records = self.env['balance'].search([], order='created_datetime, id')
+    #     running_balance = 0.0  # Initializing a running balance
+        
+    #     for rec in all_records:
+    #         # Calculate balance based on running balance and the record amount
+    #         rec.balance = running_balance + rec.amount
+    #         running_balance = rec.balance
+    @api.depends('amount', 'created_datetime', 'balance_correction')
     def _compute_balance(self):
-        # Fetching all records up to the current one
         all_records = self.env['balance'].search([], order='created_datetime, id')
-        running_balance = 0.0  # Initializing a running balance
+        running_balance = 0.0
         
-        for rec in all_records:
-            # Calculate balance based on running balance and the record amount
-            rec.balance = running_balance + rec.amount
-            running_balance = rec.balance
+        # Split records based on corrections
+        correction_indices = [index for index, rec in enumerate(all_records) if rec.balance_correction]
+        
+        # If corrections are found, calculate balance based on corrections
+        if correction_indices:
+            # Initialize starting point
+            start_index = correction_indices[0]
+            running_balance = all_records[start_index].amount
 
-    def write(self, vals):
-        vals['modified_datetime'] = fields.Datetime.now()
-        res = super(Balance, self).write(vals)
+            # For multiple corrections, loop through them and calculate balances
+            for i in range(len(correction_indices)):
+                start = correction_indices[i]
+                end = correction_indices[i+1] if i+1 < len(correction_indices) else len(all_records)
+                
+                for rec in all_records[start:end]:
+                    if rec.balance_correction:
+                        rec.balance = rec.amount
+                        running_balance = rec.balance
+                    else:
+                        running_balance += rec.amount
+                        rec.balance = running_balance
+
+        else:
+            # If no corrections are found, it's a simple running balance
+            for rec in all_records:
+                running_balance += rec.amount
+                rec.balance = running_balance
+
+    # def write(self, vals):
+    #     vals['modified_datetime'] = fields.Datetime.now()
+    #     res = super(Balance, self).write(vals)
         
-        if 'amount' in vals or 'created_datetime' in vals:
-            # Recompute balance for all records
-            all_records = self.env['balance'].search([], order='created_datetime')
+    #     if 'amount' in vals or 'created_datetime' in vals:
+    #         # Recompute balance for all records
+    #         all_records = self.env['balance'].search([], order='created_datetime')
+    #         for record in all_records:
+    #             record._compute_balance()
+
+    #     return res
+    def write(self, vals):
+        recalculate_balance = False
+
+        # Check if the record being modified has 'amount', 'created_datetime' or 'balance_correction'
+        if 'amount' in vals or 'created_datetime' in vals or 'balance_correction' in vals:
+            recalculate_balance = True
+
+        res = super(Balance, self).write(vals)
+
+        # If the above fields were modified, we recompute the balance for all records
+        if recalculate_balance:
+            all_records = self.env['balance'].search([], order='created_datetime, id')
             for record in all_records:
                 record._compute_balance()
 
         return res
 
+    # @api.model
+    # def create(self, vals):
+    #     record = super(Balance, self).create(vals)
+    #     # Recompute balance for all records
+    #     all_records = self.env['balance'].search([], order='created_datetime')
+    #     for r in all_records:
+    #         r._compute_balance()
+
+    #     return record
+    
     @api.model
     def create(self, vals):
-        record = super(Balance, self).create(vals)
-        # Recompute balance for all records
-        all_records = self.env['balance'].search([], order='created_datetime')
-        for r in all_records:
-            r._compute_balance()
+        rec = super(Balance, self).create(vals)
 
-        return record
+        # Check if the new record has 'balance_correction' set to True
+        if vals.get('balance_correction', False):
+            all_records = self.env['balance'].search([], order='created_datetime, id')
+            for record in all_records:
+                record._compute_balance()
+
+        return rec
+
     
     def unlink(self):
         # Get the earliest date being deleted

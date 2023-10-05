@@ -11,3 +11,11 @@
 .balance_view_amount td.text-danger{
     color: rgb(249, 38, 38) !important;
 }
+
+
+/* Gray background for rows with correction activated */
+.balance_view_ tr.text-muted {
+    background-color: #a1b4ff7c !important;  /* light gray color */
+}
+
+
