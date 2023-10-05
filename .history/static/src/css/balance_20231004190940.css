@@ -1,0 +1,17 @@
+.balance_view_ .text-danger {
+    background-color: #FFDDDD !important; /* light red */
+    color : initial !important;
+    margin-top:2rem !important;
+    margin-bottom:2rem !important;
+    border-bottom: 0.3rem solid white !important;
+    display: grid  !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    grid-template-rows: repeat(5, 1fr) !important;
+    grid-column-gap: 0px !important;
+    grid-row-gap: 0px !important;
+}
+
+
+.balance_view_  tr:first-child{
+    grid-area: 1 / 1 / 6 / 2 !important;
+}

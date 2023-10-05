@@ -62,9 +62,9 @@
                 <field name="reference" />
                 <field name="customer_name" />
                 <field name="created_datetime"  />
-                <field name="amount" />
+                <field name="amount" class="balance_view_amount" decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0"/>
                 <field name="payment_type"/>
-                <field name="balance" />
+                <field name="balance" decoration-danger="balance &lt; 0"/>
                  <field name="state" invisible="1"/>
             </tree>
         </field>

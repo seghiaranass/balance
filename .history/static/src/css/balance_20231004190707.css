@@ -1,4 +1,4 @@
-.balance_view_ tr.text-danger {
+.balance_view_ .text-danger {
     background-color: #FFDDDD !important; /* light red */
     color : initial !important;
     margin-top:2rem !important;
@@ -7,7 +7,3 @@
 
 }
 
-
-.balance_view_amount td.text-danger{
-    color: rgb(249, 38, 38) !important;
-}
