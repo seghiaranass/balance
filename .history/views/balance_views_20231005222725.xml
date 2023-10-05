@@ -98,8 +98,8 @@
         <field name="name">balance.tree</field>
         <field name="model">balance</field>
         <field name="arch" type="xml">
-            <tree string="Balance"  decoration-muted="balance_correction==True" decoration-danger="created_datetime &lt; current_date and state not in ['paid']" class="balance_view_">
-                <field name="reference"  class="fw-bolder balance_view_reference"  decoration-warning="estimated_payment==True"/>
+            <tree string="Balance" decoration-muted="balance_correction==True" decoration-danger="created_datetime &lt; current_date and state not in ['paid']" class="balance_view_">
+                <field name="reference"  class="fw-bolder"  />
                 <!-- <field name="customer_image" class="balance_view_customer_image" widget='image' options="{'size': [80, 35]}"/> -->
                 <field name="customer_display" widget='html' />
                 <field name="balance_tags_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
@@ -110,7 +110,6 @@
                 <field name="balance" decoration-danger="balance &lt; 0" class="fw-bolder"/>
                  <field class="font-weight-bold" name="state" invisible="1"/>
                  <field name="balance_correction" invisible="1"/>
-                 <field name="estimated_payment" invisible="1"/>
             </tree>
         </field>
     </record>
