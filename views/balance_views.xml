@@ -27,7 +27,7 @@
                             <field name="customer_name" options="{'no_create': True}" />
                         </group>
                         <group>
-                            <field name="created_datetime" />
+                            <field name="created_datetime" widget="date"/>
                         </group>
 
                         <group>
