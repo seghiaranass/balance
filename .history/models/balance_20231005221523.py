@@ -65,10 +65,10 @@ class Balance(models.Model):
         for rec in self:
             if rec.customer_name:
                 image_url = "/web/image?model=res.partner&id=%s&field=image_1920" % rec.customer_name.id
-                rec.customer_display = '<img src="%s" style="width: 70px; height: 15px; vertical-align: middle; margin-right: 5px;"/> %s' % (image_url, rec.customer_name.name)
+                rec.customer_display = '<img src="%s" style="width: 19px; height: 19px; border-radius:50%%; vertical-align: middle; margin-right: 5px;"/> %s' % (image_url, rec.customer_name.name)
             else:
                 rec.customer_display = "No Customer"
-
+                
     @api.depends('reference')
     def _compute_display_name(self):
         for record in self:

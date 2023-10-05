@@ -28,8 +28,7 @@ class Balance(models.Model):
     description = fields.Html(string="Description")
     customer_id = fields.Integer()
     customer_name = fields.Many2one('res.partner', string="Customer Name")
-    customer_display = fields.Html(string="Customer", compute="_compute_customer_display")
-
+    customer_name_display = fields.Html(string="Created By", compute="_compute_customer_display")
     customer_image = fields.Binary(related='customer_name.image_1920', string="Logo", readonly=True)
     balance_tags_ids = fields.Many2many(
             'balance.tags', 
@@ -55,19 +54,17 @@ class Balance(models.Model):
 
     balance_correction = fields.Boolean(string="Balance Correction", default=False)
 
-    @api.depends('create_uid', 'create_uid.image_1920')
+    @api.depends('customer_name', 'create_uid.image_1920')
     def _compute_creator_display(self):
         for rec in self:
             image_url = "/web/image?model=res.users&id=%s&field=image_1920" % rec.create_uid.id
             rec.creator_display = '<img src="%s" style="width: 19px; height: 19px;  border-radius:50%%; vertical-align: middle; margin-right: 5px;"/> %s' % (image_url, rec.create_uid.name)
-    @api.depends('customer_name', 'customer_name.image_1920')
+            
+    @api.depends('customer_id', 'customer_name.image_1920')
     def _compute_customer_display(self):
         for rec in self:
-            if rec.customer_name:
-                image_url = "/web/image?model=res.partner&id=%s&field=image_1920" % rec.customer_name.id
-                rec.customer_display = '<img src="%s" style="width: 70px; height: 15px; vertical-align: middle; margin-right: 5px;"/> %s' % (image_url, rec.customer_name.name)
-            else:
-                rec.customer_display = "No Customer"
+            image_url = "/web/image?model=res.users&id=%s&field=image_1920" % rec.create_uid.id
+            rec.creator_display = '<img src="%s" style="width: 19px; height: 19px;  border-radius:50%%; vertical-align: middle; margin-right: 5px;"/> %s' % (image_url, rec.create_uid.name)
 
     @api.depends('reference')
     def _compute_display_name(self):
