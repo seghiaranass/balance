@@ -19,7 +19,7 @@ class Balance(models.Model):
 
     create_uid = fields.Many2one('res.users', 'Created by')
     creator_image = fields.Binary(related='create_uid.image_1920', string="Creator's Image", readonly=True)
-    creator_display = fields.Html(string="Created By", compute="_compute_creator_display")
+
     reference = fields.Char(required=True,track_visibility='always')
     created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now)
     modified_datetime = fields.Datetime(string="Modified Date", readonly=True)
@@ -53,11 +53,7 @@ class Balance(models.Model):
 
     balance_correction = fields.Boolean(string="Balance Correction", default=False)
 
-    @api.depends('create_uid', 'create_uid.image_1920')
-    def _compute_creator_display(self):
-        for rec in self:
-            image_url = "/web/image?model=res.users&id=%s&field=image_1920" % rec.create_uid.id
-            rec.creator_display = '<img src="%s" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 5px;"/> %s' % (image_url, rec.create_uid.name)
+
 
     @api.depends('reference')
     def _compute_display_name(self):

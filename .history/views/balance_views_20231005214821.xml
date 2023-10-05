@@ -101,7 +101,14 @@
                 <field name="customer_name" />
                 <field name="balance_tags_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="created_datetime"  class="balance_view_created_datetime fw-bolder" widget="date"/>
-                <field name="creator_display" widget='html' />
+                <field name="create_uid" string="Created By">
+                    <tree>
+                        <div style="display: flex; align-items: center;">
+                            <img t-if="record.creator_image.raw_value" t-att-src="'data:image/png;base64,' + record.creator_image.raw_value" style="width: 30px; height: 30px; margin-right: 10px;"/>
+                            <span t-esc="record.create_uid.value"/>
+                        </div>
+                    </tree>
+                </field>
                 <field name="payment_type"/>
                 <field  name="amount" class="balance_view_amount fw-bolder" decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0"/>
                 <field name="balance" decoration-danger="balance &lt; 0" class="fw-bolder"/>
