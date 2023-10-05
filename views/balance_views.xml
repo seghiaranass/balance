@@ -20,7 +20,7 @@
                 <separator/>
 
                 <group expand="1" string="Group By">
-                    <filter string="Due Date" name="groupby_due_date" context="{'group_by': 'created_datetime', 'group_by_no_leaf': 1}"/>
+                    <filter string="Due Date" name="groupby_due_date" context="{'group_by': 'created_datetime:desc', 'group_by_no_leaf': 1}"/>
                 </group>
             </search>
         </field>
