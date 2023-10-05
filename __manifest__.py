@@ -14,5 +14,5 @@
             
         ],
     },
-    'depends': ['base','web','account'],  # This is the key addition you should make
+    'depends': ['base','web','account','mail'],  # This is the key addition you should make
 }

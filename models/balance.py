@@ -2,8 +2,12 @@ from odoo import fields, models, api
 from datetime import datetime
 class Balance(models.Model):
     _name = "balance"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    
     _description = "This model for calculationg balance every add or modification"
     _order = 'created_datetime desc'
+
+
 
     reference = fields.Char(required=True)
     created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now)

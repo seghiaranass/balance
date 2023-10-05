@@ -29,11 +29,12 @@
                         <group>
                             <field name="created_datetime" />
                         </group>
-                        <group>
-                            <field name="amount" />
-                        </group>
+
                         <group>
                             <field name="payment_type"/>
+                        </group>
+                        <group>
+                            <field name="amount" />
                         </group>
                         <group>
                             <field name="balance" />
@@ -53,7 +54,10 @@
                     </group>
                 </sheet>
 
-
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
 
             </form>
 
@@ -68,14 +72,14 @@
         <field name="model">balance</field>
         <field name="arch" type="xml">
             <tree string="Balance" decoration-muted="balance_correction==True" decoration-danger="created_datetime &lt; current_date and state not in ['paid']" class="balance_view_">
-                <field name="reference" />
+                <field name="reference"  class="fw-bolder"  />
                 <field name="customer_name" />
                 <field name="balance_tags_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                <field name="created_datetime"  />
-                <field name="amount" class="balance_view_amount" decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0"/>
+                <field name="created_datetime"  class="balance_view_created_datetime fw-bolder" widget="date"/>
                 <field name="payment_type"/>
-                <field name="balance" decoration-danger="balance &lt; 0"/>
-                 <field name="state" invisible="1"/>
+                <field  name="amount" class="balance_view_amount fw-bolder" decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0"/>
+                <field name="balance" decoration-danger="balance &lt; 0" class="fw-bolder"/>
+                 <field class="font-weight-bold" name="state" invisible="1"/>
                  <field name="balance_correction" invisible="1"/>
             </tree>
         </field>
