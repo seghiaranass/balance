@@ -5,10 +5,10 @@
             <menuitem id="balance_menu_action" action="balance_action" sequence="10"/>
             <!-- Adding the new menu item for fetching invoices -->
             <menuitem id="menu_fetch_invoices" 
-                    name="Fetch Invoices and View Balance" 
-                    action="action_fetch_invoices"
-                    sequence="15"/>
-  
+                      name="Fetch Invoices and View Balance" 
+                      action="action_fetch_invoices"
+                      sequence="15"/>
+            <menuitem id="balance_tags_menu" name="Tags" action="balance_tags_action" sequence="20"/>
         </menuitem>
     </menuitem>
 </odoo>

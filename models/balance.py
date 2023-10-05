@@ -13,7 +13,12 @@ class Balance(models.Model):
     description = fields.Html(string="Description")
     customer_id = fields.Integer()
     customer_name = fields.Many2one('res.partner', string="Customer Name")
-
+    balance_tags_ids = fields.Many2many(
+            'balance.tags', 
+            'balance_balance_tags_rel', 
+            'balance_id', 'tag_id', 
+            string='Tags'
+        )
     payment_type = fields.Selection([
             ('virement', 'Virement'),
             ('cheque', 'Chèque'),
@@ -113,7 +118,7 @@ class Balance(models.Model):
     #         r._compute_balance()
 
     #     return record
-    
+
     @api.model
     def create(self, vals):
         rec = super(Balance, self).create(vals)
