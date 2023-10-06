@@ -20,6 +20,7 @@ class AccountMove(models.Model):
                     'reference': move.name or '',
                     'customer_name': move.partner_id.id,
                     'created_datetime':  fields.Datetime.to_string(combined_datetime),
+                    'new_due_datetime':  fields.Datetime.to_string(combined_datetime),
                     'amount': move.amount_residual or 0.0,
                     'invoice_id': move.id
                 }

@@ -53,7 +53,7 @@
                             <field name="customer_name" options="{'no_create': True}" />
                         </group>
                         <group>
-                            <field name="created_datetime" widget="date"/>
+                            <field name="created_datetime" widget="date" attrs="{'readonly': [('id', '!=', False)]}"/>
                         </group>
                         <group>
                             <field name="new_due_datetime" widget="date"/>

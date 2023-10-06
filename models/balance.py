@@ -248,6 +248,7 @@ class Balance(models.Model):
                     'reference': invoice.name or '',
                     'customer_name': invoice.partner_id.id,
                     'created_datetime': fields.Datetime.to_string(combined_datetime),
+                    'new_due_datetime': fields.Datetime.to_string(combined_datetime),
                     'amount': invoice.amount_residual or 0.0,
                 }
                 # This will invoke the create method which already recomputes the balance
