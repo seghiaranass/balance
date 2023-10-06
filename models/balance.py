@@ -272,6 +272,15 @@ class Balance(models.Model):
             'target': 'current',
         }
 
+    
+    def copy(self, default=None):
+        default = dict(default or {})  # ensure default is a dictionary
+
+        # modify reference field value
+        ref = self.reference or ''
+        default['reference'] = '{}_copy'.format(ref)
+
+        return super(Balance, self).copy(default)
 
     def set_to_validate(self):
         self.write({'state': 'validate'})
