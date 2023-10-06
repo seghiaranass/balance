@@ -61,6 +61,7 @@ class Balance(models.Model):
 
     balance_correction = fields.Boolean(string="Balance Correction", default=False)
     estimated_payment = fields.Boolean(string="Estimated",default=False)
+    company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
 
     transaction_type = fields.Selection([
     ('debit', 'DEBIT'),
