@@ -118,7 +118,7 @@
                 <field name="paymentDate"  class="balance_view_created_datetime fw-bolder" widget="date"/>
                 <field name="creator_display" widget='html' />
                 <field name="payment_type"/>
-                <field  name="amount" class="balance_view_amount fw-bolder" decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0"/>
+                <field  name="amount"  sum="Total Amount" class="balance_view_amount fw-bolder" decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0"/>
                 <field name="balance" decoration-danger="balance &lt; 0" class="fw-bolder"/>
                  <field class="font-weight-bold" name="state" invisible="1"/>
                  <field name="balance_correction" invisible="1"/>
