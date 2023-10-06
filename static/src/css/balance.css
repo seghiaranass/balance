@@ -32,5 +32,5 @@
     position: sticky;
     bottom: 0;
     z-index: 1;
-    background-color: #efe3e3;
+    background-color: #efe3e3 !important;
 }
