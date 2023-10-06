@@ -280,7 +280,7 @@ class Balance(models.Model):
         ref = self.reference or ''
         default['reference'] = '{}_copy'.format(ref)
 
-        return super(Balance, self).copy(default)
+        return super(Balance, self).copy(default) 
 
     def set_to_validate(self):
         self.write({'state': 'validate'})
