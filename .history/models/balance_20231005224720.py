@@ -56,12 +56,6 @@ class Balance(models.Model):
     balance_correction = fields.Boolean(string="Balance Correction", default=False)
     estimated_payment = fields.Boolean(string="Estimated",default=False)
 
-    transaction_type = fields.Selection([
-    ('debit', 'DEBIT'),
-    ('credit', 'CREDIT')
-], string='Transaction Type', default='credit')
-
-
     @api.depends('create_uid', 'create_uid.image_1920')
     def _compute_creator_display(self):
         for rec in self:

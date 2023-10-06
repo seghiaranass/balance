@@ -60,6 +60,10 @@
                             <field name="payment_type"/>
                         </group>
                         <group>
+                            <field name="transaction_type" widget="radio"/>
+
+                        </group>
+                        <group>
                             <field name="amount" />
                         </group>
                         <group>

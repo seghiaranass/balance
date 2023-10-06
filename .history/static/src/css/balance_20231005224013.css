@@ -1,0 +1,30 @@
+.balance_view_ tr.text-danger {
+    background-color: #FFDDDD !important; /* light red */
+    color : initial !important;
+    margin-top:2rem !important;
+    margin-bottom:2rem !important;
+    border-bottom: 0.3rem solid white !important;
+
+}
+
+
+.balance_view_amount td.text-danger{
+    color: rgb(249, 38, 38) !important;
+}
+
+
+/* Gray background for rows with correction activated */
+.balance_view_ tr.text-muted {
+    background-color: #a1b4ff7c !important;  /* light gray color */
+}
+
+.balance_view_created_datetime{
+    font-family: Ubuntu;
+}
+
+
+.balance_view_reference tr.text-warning{
+    background-color: #c17d00 !important; 
+}
+
+
