@@ -28,3 +28,7 @@
 }
 
 
+.balance_view_ tfoot {
+    position: sticky;
+    bottom: 0;
+}

@@ -1,5 +1,7 @@
 from odoo import fields, models, api, _
 from datetime import datetime ,timedelta
+from odoo.exceptions import UserError
+
 from calendar import monthrange
 import logging
 _logger = logging.getLogger(__name__)
@@ -16,6 +18,7 @@ class Balance(models.Model):
     _order = 'created_datetime desc'
 
     _rec_name = 'display_name'
+    invoice_id = fields.Many2one('account.move', string="Invoice")
 
     create_uid = fields.Many2one('res.users', 'Created by')
     creator_image = fields.Binary(related='create_uid.image_1920', string="Creator's Image", readonly=True)
@@ -24,7 +27,7 @@ class Balance(models.Model):
     created_datetime = fields.Datetime(string="Original Date", default=fields.Datetime.now)
     new_due_datetime = fields.Datetime(string="New Due Date", default=fields.Datetime.now)
     paymentDate = fields.Datetime(string="Payment Date", default=fields.Datetime.now)
-    
+
     modified_datetime = fields.Datetime(string="Modified Date", readonly=True)
     amount = fields.Float(required=True)
     balance = fields.Float(compute="_compute_balance", store=True)
@@ -249,6 +252,23 @@ class Balance(models.Model):
                 }
                 # This will invoke the create method which already recomputes the balance
                 self.create(vals)
+
+
+
+    def action_open_invoice(self):
+        self.ensure_one()
+        
+        if not self.invoice_id:
+            raise UserError(_("This balance does not have a linked invoice."))
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Invoice',
+            'res_model': 'account.move',
+            'view_mode': 'form',
+            'res_id': self.invoice_id.id,
+            'target': 'current',
+        }
 
 
     def set_to_validate(self):

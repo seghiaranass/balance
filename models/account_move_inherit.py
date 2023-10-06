@@ -21,6 +21,7 @@ class AccountMove(models.Model):
                     'customer_name': move.partner_id.id,
                     'created_datetime':  fields.Datetime.to_string(combined_datetime),
                     'amount': move.amount_residual or 0.0,
+                    'invoice_id': move.id
                 }
                 # Create the balance record
                 self.env['balance'].create(vals)
