@@ -59,9 +59,25 @@ class Balance(models.Model):
     transaction_type = fields.Selection([
     ('debit', 'DEBIT'),
     ('credit', 'CREDIT')
-], string='Transaction Type', default='credit')
+], string='Transaction Type', default=False)
 
+    @api.onchange('transaction_type')
+    def _onchange_transaction_type(self):
+        # If the transaction type is 'debit', ensure the amount is negative
+        if self.transaction_type == 'debit' and self.amount > 0:
+            self.amount = -self.amount
+        # If the transaction type is 'credit', ensure the amount is positive
+        elif self.transaction_type == 'credit' and self.amount < 0:
+            self.amount = abs(self.amount)
 
+    @api.onchange('amount')
+    def _onchange_amount(self):
+        # This ensures the sign is correct even if the user manually changes the amount
+        if self.transaction_type == 'debit' and self.amount > 0:
+            self.amount = -self.amount
+        elif self.transaction_type == 'credit' and self.amount < 0:
+            self.amount = abs(self.amount)
+            
     @api.depends('create_uid', 'create_uid.image_1920')
     def _compute_creator_display(self):
         for rec in self:
