@@ -119,7 +119,7 @@
                 <field name="balance_tags_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="created_datetime"  class="balance_view_created_datetime fw-bolder" widget="date"/>
                 <field name="new_due_datetime"  class="balance_view_created_datetime fw-bolder" widget="date"/>
-                <field name="paymentDate"  class="balance_view_created_datetime fw-bolder" widget="date"/>
+                <field name="paymentDate"  class="balance_view_created_datetime fw-bolder" widget="date" invisible="1"/>
                 <field name="creator_display" widget='html' />
                 <field name="payment_type"/>
                 <field  name="amount"  sum="Total Amount" class="balance_view_amount fw-bolder" decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0"/>
