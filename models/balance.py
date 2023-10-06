@@ -21,7 +21,10 @@ class Balance(models.Model):
     creator_image = fields.Binary(related='create_uid.image_1920', string="Creator's Image", readonly=True)
     creator_display = fields.Html(string="Created By", compute="_compute_creator_display")
     reference = fields.Char(required=True,track_visibility='always')
-    created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now)
+    created_datetime = fields.Datetime(string="Original Date", default=fields.Datetime.now)
+    new_due_datetime = fields.Datetime(string="New Due Date", default=fields.Datetime.now)
+    paymentDate = fields.Datetime(string="Payment Date", default=fields.Datetime.now)
+    
     modified_datetime = fields.Datetime(string="Modified Date", readonly=True)
     amount = fields.Float(required=True)
     balance = fields.Float(compute="_compute_balance", store=True)
@@ -77,7 +80,7 @@ class Balance(models.Model):
             self.amount = -self.amount
         elif self.transaction_type == 'credit' and self.amount < 0:
             self.amount = abs(self.amount)
-            
+
     @api.depends('create_uid', 'create_uid.image_1920')
     def _compute_creator_display(self):
         for rec in self:

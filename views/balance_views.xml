@@ -55,6 +55,12 @@
                         <group>
                             <field name="created_datetime" widget="date"/>
                         </group>
+                        <group>
+                            <field name="new_due_datetime" widget="date"/>
+                        </group>
+                        <group>
+                            <field name="paymentDate" widget="date"/>
+                        </group>
 
                         <group>
                             <field name="payment_type"/>
@@ -108,6 +114,8 @@
                 <field name="customer_display" widget='html' />
                 <field name="balance_tags_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="created_datetime"  class="balance_view_created_datetime fw-bolder" widget="date"/>
+                <field name="new_due_datetime"  class="balance_view_created_datetime fw-bolder" widget="date"/>
+                <field name="paymentDate"  class="balance_view_created_datetime fw-bolder" widget="date"/>
                 <field name="creator_display" widget='html' />
                 <field name="payment_type"/>
                 <field  name="amount" class="balance_view_amount fw-bolder" decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0"/>
