@@ -126,24 +126,39 @@ class Balance(models.Model):
         for record in self:
             record.display_name = record.reference or ''
 
-    @api.depends('amount', 'created_datetime', 'balance_correction')
-    def _compute_balance(self):
-        # Fetch all records, sorted by datetime
-        all_records = self.env['balance'].search([], order='created_datetime, id')
+    # @api.depends('amount', 'created_datetime', 'balance_correction')
+    # def _compute_balance(self):
+    #     # Fetch all records, sorted by datetime
+    #     all_records = self.env['balance'].search([], order='created_datetime, id')
         
-        running_balance = 0
+    #     running_balance = 0
 
-        for rec in all_records:
-            if rec.balance_correction:
-                # If it's a correction, set balance to the record's amount
-                rec.balance = rec.amount
-                # Also update the running balance
-                running_balance = rec.amount
+    #     for rec in all_records:
+    #         if rec.balance_correction:
+    #             # If it's a correction, set balance to the record's amount
+    #             rec.balance = rec.amount
+    #             # Also update the running balance
+    #             running_balance = rec.amount
+    #         else:
+    #             # Else, keep adding the record's amount to running balance
+    #             running_balance += rec.amount
+    #             rec.balance = running_balance
+    def recompute_balances_from_date(self, start_date):
+        # Get the record just before the start_date to have the starting balance
+        prior_record = self.env['balance'].search([('created_datetime', '<', start_date)], order='created_datetime desc', limit=1)
+
+        # If a prior record is found, use its balance as starting balance, else start from 0
+        running_balance = prior_record.balance if prior_record else 0
+
+        # Now fetch all records from the modified record onwards
+        affected_records = self.env['balance'].search([('created_datetime', '>=', start_date)], order='created_datetime, id')
+        
+        for record in affected_records:
+            if record.balance_correction:
+                running_balance = record.amount
             else:
-                # Else, keep adding the record's amount to running balance
-                running_balance += rec.amount
-                rec.balance = running_balance
-
+                running_balance += record.amount
+            record.balance = running_balance
     def write(self, vals):
         recalculate_balance = False
 
@@ -153,27 +168,16 @@ class Balance(models.Model):
             combined_datetime = datetime.combine(selected_date, current_time)
             vals['created_datetime'] = combined_datetime
 
-
-
-        # Check if the record being modified has 'amount', 'created_datetime' or 'balance_correction'
         if 'amount' in vals or 'created_datetime' in vals or 'balance_correction' in vals:
             recalculate_balance = True
 
         res = super(Balance, self).write(vals)
-       
-        # If the above fields were modified, we recompute the balance for all records
+    
         if recalculate_balance:
-            if  'created_datetime' in vals and fields.Datetime.from_string(vals.get('created_datetime')) < self.created_datetime:
-             search_date = vals.get('created_datetime')
-            else:  
-             search_date = self.created_datetime
-
-            domain = [('created_datetime', '>=', search_date)]
-            all_records = self.env['balance'].search(domain, order='created_datetime, id')
-            for record in all_records:
-                record._compute_balance()
+            self.recompute_balances_from_date(vals.get('created_datetime') or self.created_datetime)
 
         return res
+
 
     @api.model
     def create(self, vals):
