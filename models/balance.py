@@ -26,7 +26,7 @@ class Balance(models.Model):
     reference = fields.Char(required=True,track_visibility='always')
     created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now)
     new_due_datetime = fields.Datetime(string="Original Date", default=fields.Datetime.now)
-    paymentDate = fields.Datetime(string="Payment Date", default=fields.Datetime.now)
+    payment_date = fields.Datetime(string="Payment Date", default=False)
 
     modified_datetime = fields.Datetime(string="Modified Date", readonly=True)
     amount = fields.Float(required=True)
@@ -62,11 +62,22 @@ class Balance(models.Model):
     balance_correction = fields.Boolean(string="Balance Correction", default=False)
     estimated_payment = fields.Boolean(string="Estimated",default=False)
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
+    
+    tooltip_field = fields.Char(string="Tooltip Field", compute="_compute_tooltip_field")
 
     transaction_type = fields.Selection([
     ('debit', 'DEBIT'),
     ('credit', 'CREDIT')
 ], string='Transaction Type', default=False)
+
+
+
+
+    @api.depends('description')
+    def _compute_tooltip_field(self):
+        for record in self:
+            record.tooltip_field = record.description 
+
 
     @api.onchange('transaction_type')
     def _onchange_transaction_type(self):
