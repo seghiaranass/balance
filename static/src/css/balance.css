@@ -34,3 +34,15 @@
     z-index: 1;
     background-color: #efe3e3 !important;
 }
+
+
+.o_form_view .o_form_label {
+    display: inline-block  !important;
+    width: 120px !important; 
+    text-align: left !important; 
+    margin-right: 10px !important; 
+}
+
+.o_form_view .o_field_widget {
+    vertical-align: top !important;
+}

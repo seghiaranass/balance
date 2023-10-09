@@ -33,7 +33,7 @@
         <field name="name">balance.form</field>
         <field name="model">balance</field>
         <field name="arch" type="xml">
-            <form string="Balance">
+            <form string="Balance" class="balance_view_form">
                 <header>
                     <field name="state" widget="statusbar" clickable="True" />
 
@@ -54,7 +54,7 @@
                     </h1>
 
                     <group>
-                        <group>
+                        <group class="balance_view__customer_name">
                             <field name="customer_name" options="{'no_create': True}" />
                         </group>
                         <group>
@@ -64,7 +64,7 @@
                     </group>
 
                     <group>
-                        <group>
+                        <group >
                             <field name="new_due_datetime" widget="date" />
                         </group>
                         <group>
@@ -142,6 +142,9 @@
             <tree string="Balance" decoration-muted="balance_correction==True"
                 decoration-danger="created_datetime &lt; current_date and state not in ['paid']"
                 class="balance_view_">
+                <control>
+                    <button string="Your Button" type="object" name="your_button_method" class="oe_highlight"/>
+                </control>
                 <field name="reference" class="fw-bolder balance_view_reference"
                     decoration-warning="estimated_payment==True" />
                 <!-- <button name="action_open_invoice" type="object" string="Open Invoice"

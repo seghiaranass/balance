@@ -312,3 +312,7 @@ class Balance(models.Model):
 
     def set_to_draft(self):
         self.write({'state': 'draft'})
+        
+    def your_button_method(self):
+        # Your action code here
+        pass
