@@ -48,6 +48,7 @@
 } */
 
 
-.custom-border-bottom tr{
-    border-bottom: 5px solid black !important;
+.balance_view_ tr.row_bottom_border{
+    border-bottom: 5px solid #9a7fb3  !important;
 }
+

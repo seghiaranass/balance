@@ -14,6 +14,7 @@
     'assets': {
         'web.assets_backend': [
             'balance/static/src/js/custom_buttons.js',
+            'balance/static/src/js/odoo_js.js',
             'balance/static/src/css/balance.css',
             'balance/static/src/css/balance_style.scss'
             

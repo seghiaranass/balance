@@ -66,20 +66,8 @@ class Balance(models.Model):
     tooltip_field = fields.Char(string="Tooltip Field", compute="_compute_tooltip_field")
 
 
-    last_in_month = fields.Boolean(compute='_compute_last_in_month')
-    @api.depends('month_year')
-    def _compute_last_in_month(self):
-        records = self.sorted(key=lambda r: (r.month_year, r.id))
-        prev_record = records[0]
-        for record in records[1:]:
-            if record.month_year != prev_record.month_year:
-                prev_record.last_in_month = True
-            else:
-                prev_record.last_in_month = False
-            prev_record = record
+    last_in_month = fields.Boolean(string="Malik ?", compute='_compute_last_in_month' ,default=False,store=True)
 
-        # This ensures the very last record always gets a border too
-        records[-1].last_in_month = True
 
     
     transaction_type = fields.Selection([
@@ -159,6 +147,7 @@ class Balance(models.Model):
     #             running_balance += rec.amount
     #             rec.balance = running_balance
     def recompute_balances_from_date(self, start_date):
+        
         prior_record = self.env['balance'].search([('created_datetime', '<', start_date)], order='created_datetime desc', limit=1)
 
         running_balance = prior_record.balance if prior_record else 0
@@ -305,3 +294,9 @@ class Balance(models.Model):
             'url': url,
             'target': 'self',
         }
+
+
+
+    @api.depends('month_year')
+    def _compute_last_in_month(self):
+        _logger.info("`````````````````````````````````*******************************")
