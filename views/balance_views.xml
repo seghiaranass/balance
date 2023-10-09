@@ -163,8 +163,8 @@
                     widget="date" />
                 <field name="new_due_datetime" class="balance_view_created_datetime fw-bolder"
                     widget="date" />
-                <field name="payment_date" class="balance_view_created_datetime fw-bolder"
-                    widget="date"  />
+                <field name="paymentDate" class="balance_view_created_datetime fw-bolder"
+                    widget="date" invisible="1" />
                 <field name="creator_display" widget='html' />
                 <field name="payment_type" />
                 <field name="amount" sum="Total Amount" class="balance_view_amount fw-bolder"
