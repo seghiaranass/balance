@@ -157,6 +157,8 @@
 
                 <field name="balance_tags_ids" widget="many2many_tags"
                     options="{'color_field': 'color'}" />
+                 <field name="month_year" class="balance_view_created_datetime fw-bolder" widget="text"/>
+
                 <field name="created_datetime" class="balance_view_created_datetime fw-bolder"
                     widget="date" />
                 <field name="new_due_datetime" class="balance_view_created_datetime fw-bolder"

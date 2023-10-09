@@ -65,13 +65,24 @@ class Balance(models.Model):
     
     tooltip_field = fields.Char(string="Tooltip Field", compute="_compute_tooltip_field")
 
+
+
     transaction_type = fields.Selection([
     ('debit', 'DEBIT'),
     ('credit', 'CREDIT')
 ], string='Transaction Type', default=False)
 
 
+    month_year = fields.Char(string='Month & Year', compute='_compute_month_year')
 
+    @api.depends('created_datetime')
+    def _compute_month_year(self):
+        for record in self:
+            if record.created_datetime:
+                date_obj = fields.Date.from_string(record.created_datetime)
+                record.month_year = date_obj.strftime('%B %Y')
+            else:
+                record.month_year = ''
 
     @api.depends('description')
     def _compute_tooltip_field(self):
