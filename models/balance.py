@@ -140,36 +140,53 @@ class Balance(models.Model):
     #         running_balance = rec.balance
     @api.depends('amount', 'created_datetime', 'balance_correction')
     def _compute_balance(self):
+        # Fetch all records, sorted by datetime
         all_records = self.env['balance'].search([], order='created_datetime, id')
-        running_balance = 0.0
         
-        # Split records based on corrections
-        correction_indices = [index for index, rec in enumerate(all_records) if rec.balance_correction]
-        
-        # If corrections are found, calculate balance based on corrections
-        if correction_indices:
-            # Initialize starting point
-            start_index = correction_indices[0]
-            running_balance = all_records[start_index].amount
+        running_balance = 0
 
-            # For multiple corrections, loop through them and calculate balances
-            for i in range(len(correction_indices)):
-                start = correction_indices[i]
-                end = correction_indices[i+1] if i+1 < len(correction_indices) else len(all_records)
-                
-                for rec in all_records[start:end]:
-                    if rec.balance_correction:
-                        rec.balance = rec.amount
-                        running_balance = rec.balance
-                    else:
-                        running_balance += rec.amount
-                        rec.balance = running_balance
-
-        else:
-            # If no corrections are found, it's a simple running balance
-            for rec in all_records:
+        for rec in all_records:
+            if rec.balance_correction:
+                # If it's a correction, set balance to the record's amount
+                rec.balance = rec.amount
+                # Also update the running balance
+                running_balance = rec.amount
+            else:
+                # Else, keep adding the record's amount to running balance
                 running_balance += rec.amount
                 rec.balance = running_balance
+
+    # def _compute_balance(self):
+    #     all_records = self.env['balance'].search([], order='created_datetime, id')
+    #     running_balance = 0.0
+        
+    #     # Split records based on corrections
+    #     correction_indices = [index for index, rec in enumerate(all_records) if rec.balance_correction]
+        
+    #     # If corrections are found, calculate balance based on corrections
+    #     if correction_indices:
+    #         # Initialize starting point
+    #         start_index = correction_indices[0]
+    #         running_balance = all_records[start_index].amount
+
+    #         # For multiple corrections, loop through them and calculate balances
+    #         for i in range(len(correction_indices)):
+    #             start = correction_indices[i]
+    #             end = correction_indices[i+1] if i+1 < len(correction_indices) else len(all_records)
+                
+    #             for rec in all_records[start:end]:
+    #                 if rec.balance_correction:
+    #                     rec.balance = rec.amount
+    #                     running_balance = rec.balance
+    #                 else:
+    #                     running_balance += rec.amount
+    #                     rec.balance = running_balance
+
+    #     else:
+    #         # If no corrections are found, it's a simple running balance
+    #         for rec in all_records:
+    #             running_balance += rec.amount
+    #             rec.balance = running_balance
 
     # def write(self, vals):
     #     vals['modified_datetime'] = fields.Datetime.now()
