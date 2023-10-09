@@ -144,13 +144,10 @@ class Balance(models.Model):
     #             running_balance += rec.amount
     #             rec.balance = running_balance
     def recompute_balances_from_date(self, start_date):
-        # Get the record just before the start_date to have the starting balance
         prior_record = self.env['balance'].search([('created_datetime', '<', start_date)], order='created_datetime desc', limit=1)
 
-        # If a prior record is found, use its balance as starting balance, else start from 0
         running_balance = prior_record.balance if prior_record else 0
 
-        # Now fetch all records from the modified record onwards
         affected_records = self.env['balance'].search([('created_datetime', '>=', start_date)], order='created_datetime, id')
         
         for record in affected_records:
@@ -159,11 +156,13 @@ class Balance(models.Model):
             else:
                 running_balance += record.amount
             record.balance = running_balance
+
     def write(self, vals):
         recalculate_balance = False
 
         if 'created_datetime' in vals:
-            selected_date = fields.Datetime.from_string(vals['created_datetime']).date()
+            adjusted_datetime = fields.Datetime.from_string(vals['created_datetime']) + timedelta(hours=1)
+            selected_date = adjusted_datetime.date()
             current_time = fields.Datetime.from_string(fields.Datetime.now()).time()
             combined_datetime = datetime.combine(selected_date, current_time)
             vals['created_datetime'] = combined_datetime
