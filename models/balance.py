@@ -126,18 +126,6 @@ class Balance(models.Model):
         for record in self:
             record.display_name = record.reference or ''
 
-
-
-    # @api.depends('amount', 'created_datetime')
-    # def _compute_balance(self):
-    #     # Fetching all records up to the current one
-    #     all_records = self.env['balance'].search([], order='created_datetime, id')
-    #     running_balance = 0.0  # Initializing a running balance
-        
-    #     for rec in all_records:
-    #         # Calculate balance based on running balance and the record amount
-    #         rec.balance = running_balance + rec.amount
-    #         running_balance = rec.balance
     @api.depends('amount', 'created_datetime', 'balance_correction')
     def _compute_balance(self):
         # Fetch all records, sorted by datetime
@@ -156,49 +144,6 @@ class Balance(models.Model):
                 running_balance += rec.amount
                 rec.balance = running_balance
 
-    # def _compute_balance(self):
-    #     all_records = self.env['balance'].search([], order='created_datetime, id')
-    #     running_balance = 0.0
-        
-    #     # Split records based on corrections
-    #     correction_indices = [index for index, rec in enumerate(all_records) if rec.balance_correction]
-        
-    #     # If corrections are found, calculate balance based on corrections
-    #     if correction_indices:
-    #         # Initialize starting point
-    #         start_index = correction_indices[0]
-    #         running_balance = all_records[start_index].amount
-
-    #         # For multiple corrections, loop through them and calculate balances
-    #         for i in range(len(correction_indices)):
-    #             start = correction_indices[i]
-    #             end = correction_indices[i+1] if i+1 < len(correction_indices) else len(all_records)
-                
-    #             for rec in all_records[start:end]:
-    #                 if rec.balance_correction:
-    #                     rec.balance = rec.amount
-    #                     running_balance = rec.balance
-    #                 else:
-    #                     running_balance += rec.amount
-    #                     rec.balance = running_balance
-
-    #     else:
-    #         # If no corrections are found, it's a simple running balance
-    #         for rec in all_records:
-    #             running_balance += rec.amount
-    #             rec.balance = running_balance
-
-    # def write(self, vals):
-    #     vals['modified_datetime'] = fields.Datetime.now()
-    #     res = super(Balance, self).write(vals)
-        
-    #     if 'amount' in vals or 'created_datetime' in vals:
-    #         # Recompute balance for all records
-    #         all_records = self.env['balance'].search([], order='created_datetime')
-    #         for record in all_records:
-    #             record._compute_balance()
-
-    #     return res
     def write(self, vals):
         recalculate_balance = False
 
@@ -213,10 +158,6 @@ class Balance(models.Model):
         # Check if the record being modified has 'amount', 'created_datetime' or 'balance_correction'
         if 'amount' in vals or 'created_datetime' in vals or 'balance_correction' in vals:
             recalculate_balance = True
-            _logger.info("*********!!!!!!!!!!!!!*******************")
-            _logger.info(vals)
-            _logger.info(self.created_datetime)
-            _logger.info("*********!!!!!!!!!!!!!*******************")
 
         res = super(Balance, self).write(vals)
        
@@ -231,20 +172,8 @@ class Balance(models.Model):
             all_records = self.env['balance'].search(domain, order='created_datetime, id')
             for record in all_records:
                 record._compute_balance()
-            _logger.info("*********!!!!!!!!!!!!!*******************")
-            _logger.info(len(all_records))
 
         return res
-
-    # @api.model
-    # def create(self, vals):
-    #     record = super(Balance, self).create(vals)
-    #     # Recompute balance for all records
-    #     all_records = self.env['balance'].search([], order='created_datetime')
-    #     for r in all_records:
-    #         r._compute_balance()
-
-    #     return record
 
     @api.model
     def create(self, vals):
