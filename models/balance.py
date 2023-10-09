@@ -184,19 +184,15 @@ class Balance(models.Model):
         if 'created_datetime' in vals:
             adjusted_datetime = fields.Datetime.from_string(vals['created_datetime']) + timedelta(hours=1)
             selected_date = adjusted_datetime.date()
-
-            # selected_date = fields.Datetime.from_string(vals['created_datetime']).date()
             current_time = fields.Datetime.from_string(fields.Datetime.now()).time()
             combined_datetime = datetime.combine(selected_date, current_time)
             vals['created_datetime'] = combined_datetime
 
         rec = super(Balance, self).create(vals)
 
-        # Check if the new record has 'balance_correction' set to True
-        if vals.get('balance_correction', False):
-            all_records = self.env['balance'].search([], order='created_datetime, id')
-            for record in all_records:
-                record._compute_balance()
+        # If the new record is created with 'balance_correction', or it affects the order
+        if vals.get('balance_correction', False) or 'amount' in vals or 'created_datetime' in vals:
+            self.recompute_balances_from_date(vals['created_datetime'])
 
         return rec
 
@@ -207,13 +203,8 @@ class Balance(models.Model):
         
         res = super(Balance, self).unlink()
         
-        # Get all records from the earliest deleted date and recompute their balance
-        subsequent_records = self.env['balance'].search(
-            [('created_datetime', '>=', earliest_date)], order='created_datetime')
-        
-        for record in subsequent_records:
-            record.balance = 0.0
-            record._compute_balance()
+        # Recompute balances from the earliest deleted date onwards
+        self.recompute_balances_from_date(earliest_date)
 
         return res
 
