@@ -46,3 +46,8 @@
 .balance_view_form_sheet .o_field_widget {
     vertical-align: top !important;
 } */
+
+
+.custom-border-bottom tr{
+    border-bottom: 5px solid black !important;
+}

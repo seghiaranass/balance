@@ -66,7 +66,22 @@ class Balance(models.Model):
     tooltip_field = fields.Char(string="Tooltip Field", compute="_compute_tooltip_field")
 
 
+    last_in_month = fields.Boolean(compute='_compute_last_in_month')
+    @api.depends('month_year')
+    def _compute_last_in_month(self):
+        records = self.sorted(key=lambda r: (r.month_year, r.id))
+        prev_record = records[0]
+        for record in records[1:]:
+            if record.month_year != prev_record.month_year:
+                prev_record.last_in_month = True
+            else:
+                prev_record.last_in_month = False
+            prev_record = record
 
+        # This ensures the very last record always gets a border too
+        records[-1].last_in_month = True
+
+    
     transaction_type = fields.Selection([
     ('debit', 'DEBIT'),
     ('credit', 'CREDIT')
@@ -162,8 +177,9 @@ class Balance(models.Model):
 
         if 'created_datetime' in vals:
             original_date = self.created_datetime
-
-            selected_date = fields.Datetime.from_string(vals['created_datetime']).date()
+    
+            adjusted_datetime = fields.Datetime.from_string(vals['created_datetime']) + timedelta(hours=1)
+            selected_date = adjusted_datetime.date()
             current_time = fields.Datetime.from_string(fields.Datetime.now()).time()
             combined_datetime = datetime.combine(selected_date, current_time)
             vals['created_datetime'] = combined_datetime
@@ -181,9 +197,8 @@ class Balance(models.Model):
         if recalculate_from_date:
             self.recompute_balances_from_date(recalculate_from_date)
 
+
         return res
-
-
 
     @api.model
     def create(self, vals):
@@ -282,25 +297,11 @@ class Balance(models.Model):
         if not self:
             raise UserError(_('Please select some records.'))
 
-        # Start preparing the SQL statements
-        sql_statements = []
-        for record in self:
-            values = [
-                ("id", record.id),
-                ("amount", record.amount),
-                # ... add other fields here ...
-            ]
-            columns = ", ".join('"%s"' % field for field, value in values)
-            vals = ", ".join(repr(value) for field, value in values)
-            stmt = "INSERT INTO balance_table_name (%s) VALUES (%s);" % (columns, vals)
-            sql_statements.append(stmt)
-
-        # Convert SQL statements into a single string and encode it
-        content = "\n".join(sql_statements).encode('utf-8')
-
         # Return the SQL as a downloadable file
+        record_ids = ','.join(str(record.id) for record in self)
+        url = '/balance/download_sql?record_ids=%s' % record_ids
         return {
             'type': 'ir.actions.act_url',
-            'url': '/web/binary/saveas?model=%s&id=%s&filename_field=%s' % (self._name, self.ids[0], "sql_export.sql"),
+            'url': url,
             'target': 'self',
         }

@@ -143,7 +143,7 @@
         <field name="arch" type="xml">
             <tree string="Balance" decoration-muted="balance_correction==True"
                 decoration-danger="created_datetime &lt; current_date and state not in ['paid']"
-                class="balance_view_">
+                class="balance_view_ custom-border-bottom">
                 <header>
                     <button string="Download SQL" type="object" name="download_as_sql"/>
                 </header>
@@ -162,7 +162,7 @@
 
                 <field name="balance_tags_ids" widget="many2many_tags"
                     options="{'color_field': 'color'}" />
-                 <field name="month_year" class="balance_view_created_datetime fw-bolder" widget="text"/>
+                 <field name="month_year" class="balance_view_created_datetime fw-bolder " widget="text"/>
 
                 <field name="created_datetime" class="balance_view_created_datetime fw-bolder"
                     widget="date" />
