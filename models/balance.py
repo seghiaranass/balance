@@ -26,7 +26,7 @@ class Balance(models.Model):
     reference = fields.Char(required=True,track_visibility='always')
     created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now)
     new_due_datetime = fields.Datetime(string="Original Date", default=fields.Datetime.now)
-    payment_date = fields.Datetime(string="Payment Date", default=False)
+    paymentDate = fields.Datetime(string="Payment Date", default=False)
 
     modified_datetime = fields.Datetime(string="Modified Date", readonly=True)
     amount = fields.Float(required=True)
