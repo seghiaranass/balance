@@ -144,9 +144,9 @@
             <tree string="Balance" decoration-muted="balance_correction==True"
                 decoration-danger="created_datetime &lt; current_date and state not in ['paid']"
                 class="balance_view_">
-                <control>
-                    <button string="Your Button" type="object" name="your_button_method" class="oe_highlight"/>
-                </control>
+                <header>
+                    <button string="Download SQL" type="object" name="download_as_sql"/>
+                </header>
                 <field name="reference" class="fw-bolder balance_view_reference"
                     decoration-warning="estimated_payment==True" />
                 <!-- <button name="action_open_invoice" type="object" string="Open Invoice"
@@ -157,7 +157,7 @@
 
                 <!-- <field name="customer_image" class="balance_view_customer_image" widget='image'
                 options="{'size': [80, 35]}"/> -->
-                <field name="customer_display" widget='html'  />
+                <field name="customer_display" widget='html' />
                 <!-- <field name="customer_display" widget='html'  help="tooltip_field" options="{'always_reload': True}" /> -->
 
                 <field name="balance_tags_ids" widget="many2many_tags"

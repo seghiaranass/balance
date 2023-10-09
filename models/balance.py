@@ -158,24 +158,31 @@ class Balance(models.Model):
             record.balance = running_balance
 
     def write(self, vals):
-        recalculate_balance = False
+        recalculate_from_date = False
 
         if 'created_datetime' in vals:
-            adjusted_datetime = fields.Datetime.from_string(vals['created_datetime']) + timedelta(hours=1)
-            selected_date = adjusted_datetime.date()
+            original_date = self.created_datetime
+
+            selected_date = fields.Datetime.from_string(vals['created_datetime']).date()
             current_time = fields.Datetime.from_string(fields.Datetime.now()).time()
             combined_datetime = datetime.combine(selected_date, current_time)
             vals['created_datetime'] = combined_datetime
 
-        if 'amount' in vals or 'created_datetime' in vals or 'balance_correction' in vals:
-            recalculate_balance = True
+            new_date = fields.Datetime.from_string(vals['created_datetime'])
+            if new_date < original_date:
+                recalculate_from_date = new_date
+            else:
+                recalculate_from_date = original_date
+        elif 'amount' in vals or 'balance_correction' in vals:
+            recalculate_from_date = self.created_datetime
 
         res = super(Balance, self).write(vals)
-    
-        if recalculate_balance:
-            self.recompute_balances_from_date(vals.get('created_datetime') or self.created_datetime)
+
+        if recalculate_from_date:
+            self.recompute_balances_from_date(recalculate_from_date)
 
         return res
+
 
 
     @api.model
@@ -268,3 +275,32 @@ class Balance(models.Model):
     def your_button_method(self):
         # Your action code here
         pass
+
+
+    def download_as_sql(self):
+        # Ensure some records are selected
+        if not self:
+            raise UserError(_('Please select some records.'))
+
+        # Start preparing the SQL statements
+        sql_statements = []
+        for record in self:
+            values = [
+                ("id", record.id),
+                ("amount", record.amount),
+                # ... add other fields here ...
+            ]
+            columns = ", ".join('"%s"' % field for field, value in values)
+            vals = ", ".join(repr(value) for field, value in values)
+            stmt = "INSERT INTO balance_table_name (%s) VALUES (%s);" % (columns, vals)
+            sql_statements.append(stmt)
+
+        # Convert SQL statements into a single string and encode it
+        content = "\n".join(sql_statements).encode('utf-8')
+
+        # Return the SQL as a downloadable file
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/web/binary/saveas?model=%s&id=%s&filename_field=%s' % (self._name, self.ids[0], "sql_export.sql"),
+            'target': 'self',
+        }
