@@ -196,14 +196,26 @@ class Balance(models.Model):
         # Check if the record being modified has 'amount', 'created_datetime' or 'balance_correction'
         if 'amount' in vals or 'created_datetime' in vals or 'balance_correction' in vals:
             recalculate_balance = True
+            _logger.info("*********!!!!!!!!!!!!!*******************")
+            _logger.info(vals)
+            _logger.info(self.created_datetime)
+            _logger.info("*********!!!!!!!!!!!!!*******************")
 
         res = super(Balance, self).write(vals)
-
+       
         # If the above fields were modified, we recompute the balance for all records
         if recalculate_balance:
-            all_records = self.env['balance'].search([], order='created_datetime, id')
+            if  'created_datetime' in vals and fields.Datetime.from_string(vals.get('created_datetime')) < self.created_datetime:
+             search_date = vals.get('created_datetime')
+            else:  
+             search_date = self.created_datetime
+
+            domain = [('created_datetime', '>=', search_date)]
+            all_records = self.env['balance'].search(domain, order='created_datetime, id')
             for record in all_records:
                 record._compute_balance()
+            _logger.info("*********!!!!!!!!!!!!!*******************")
+            _logger.info(len(all_records))
 
         return res
 

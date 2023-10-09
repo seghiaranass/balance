@@ -36,13 +36,13 @@
 }
 
 
-.o_form_view .o_form_label {
+/* .balance_view_form_sheet .o_form_label {
     display: inline-block  !important;
     width: 120px !important; 
     text-align: left !important; 
     margin-right: 10px !important; 
 }
 
-.o_form_view .o_field_widget {
+.balance_view_form_sheet .o_field_widget {
     vertical-align: top !important;
-}
+} */

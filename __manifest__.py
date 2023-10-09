@@ -8,12 +8,14 @@
         'views/balance_actions.xml',
         'views/balance_tags_actions.xml',
         'views/balance_menus.xml',
+        # 'assets.xml',
     ],
     'images': ['static/description/icon.png'],
     'assets': {
         'web.assets_backend': [
             'balance/static/src/js/custom_buttons.js',
-            'balance/static/src/css/balance.css'
+            'balance/static/src/css/balance.css',
+            'balance/static/src/css/balance_style.scss'
             
         ],
     },

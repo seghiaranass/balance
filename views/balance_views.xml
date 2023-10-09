@@ -46,7 +46,7 @@
                         attrs="{'invisible': [('state', 'not in', ['validate', 'paid'])]}" />
                 </header>
 
-                <sheet>
+                <sheet class="balance_view_form_sheet">
                     <h1>
                         <group>
                             <field name="reference" />
@@ -58,8 +58,10 @@
                             <field name="customer_name" options="{'no_create': True}" />
                         </group>
                         <group>
+                            <!-- <field name="created_datetime" widget="date"
+                                attrs="{'readonly': [('id', '!=', False)]}" /> -->
                             <field name="created_datetime" widget="date"
-                                attrs="{'readonly': [('id', '!=', False)]}" />
+                                />
                         </group>
                     </group>
 
