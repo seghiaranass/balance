@@ -130,6 +130,9 @@
                             <tree editable="bottom">
                                 <!-- Fields you want to display from account.bank.statement.line -->
                                 <field name="name"/>
+                                <field name="date"/>
+                                <field name="payment_ref"/>
+                                <field name="amount"/>
                                 <!-- Add other fields as needed -->
                             </tree>
                         </field>
