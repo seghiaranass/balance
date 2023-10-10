@@ -53,3 +53,11 @@ class AccountMove(models.Model):
             # Then, proceed to reset the invoice to draft by calling the super method
             return super(AccountMove, self).button_draft()
     
+
+    @api.model
+    def update_invoice_id(self):
+        for balance_record in self.search([]):  # Loop through all balance records
+            # Search for the account.move record where the name matches the balance record's reference
+            invoice = self.env['account.move'].search([('name', '=', balance_record.reference), ('type', '=', 'out_invoice')], limit=1)
+            if invoice:
+                balance_record.invoice_id = invoice.id

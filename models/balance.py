@@ -18,7 +18,7 @@ class Balance(models.Model):
     _order = 'created_datetime desc'
 
     _rec_name = 'display_name'
-    invoice_id = fields.Many2one('account.move', string="Invoice")
+    invoice_id = fields.Many2one('account.move', string="Invoice", domain=[('state','=','posted'),('move_type', 'in', ['in_invoice', 'out_invoice'])])
 
     create_uid = fields.Many2one('res.users', 'Created by')
     creator_image = fields.Binary(related='create_uid.image_1920', string="Creator's Image", readonly=True)
@@ -301,6 +301,13 @@ class Balance(models.Model):
 
 
 
-    @api.depends('month_year')
-    def _compute_last_in_month(self):
-        _logger.info("`````````````````````````````````*******************************")
+    @api.model
+    def update_invoice_id(self):
+        for balance_record in self.search([]):  # Loop through all balance records
+            print(balance_record.reference)
+            # Search for the account.move record where the name matches the balance record's reference
+            invoice = self.env['account.move'].search([('name', '=', balance_record.reference), ('move_type', '=', 'out_invoice')], limit=1)
+            print(invoice)
+            if invoice:
+                balance_record.invoice_id = invoice.id
+                print(invoice.id)
