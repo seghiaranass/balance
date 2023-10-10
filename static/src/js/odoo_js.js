@@ -3,11 +3,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var config = { attributes: false, childList: true, subtree: true };
 
     var processMonths = function() {
-        var elements = document.querySelectorAll('div[name="month_year"]');
+        var elements = document.querySelectorAll('div[name="created_datetime"]');
         var lastMonth = null;
 
         elements.forEach(function(element, index) {
-            var monthYear = element.textContent.trim();
+
+            var monthYear = element.textContent.trim().split('/')[1];
 
             if (lastMonth !== null && lastMonth !== monthYear) {
                 // Add border to the previous item if current month is different
@@ -15,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 elements[index - 1].closest('tr').classList.add("row_bottom_border")
             }
 
-            // If it's the last item, add a border too
             if (index === elements.length - 1) {
                 element.closest('tr').classList.add("row_bottom_border")
             }

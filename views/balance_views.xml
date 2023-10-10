@@ -151,7 +151,7 @@
                     <button string="Download SQL" type="object" name="download_as_sql"/>
                 </header>
                 <field name="reference" class="fw-bolder balance_view_reference"
-                    decoration-warning="estimated_payment==True" />
+                    decoration-warning="estimated_payment==True"  />
                 <!-- <button name="action_open_invoice" type="object" string="Open Invoice"
                 attrs="{'invisible': [('invoice_id', '=', False)]}" /> -->
 
@@ -165,7 +165,7 @@
 
                 <field name="balance_tags_ids" widget="many2many_tags"
                     options="{'color_field': 'color'}" />
-                 <field name="month_year" class="balance_view_created_datetime fw-bolder " widget="text"/>
+                 <!-- <field name="month_year" class="balance_view_created_datetime fw-bolder d-none "  widget="text"/> -->
 
                 <field name="created_datetime" class="balance_view_created_datetime fw-bolder"
                     widget="date" />
