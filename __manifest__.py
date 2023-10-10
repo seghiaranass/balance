@@ -3,6 +3,7 @@
     'application': True,
     'data': [
         'security/ir.model.access.csv',
+        'views/wizard_attach_statement_line_view.xml',
         'views/balance_views.xml',
         'views/balance_tags_views.xml',
         'views/balance_actions.xml',

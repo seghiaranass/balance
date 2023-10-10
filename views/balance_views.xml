@@ -45,8 +45,9 @@
                     <button name="set_to_draft" string="Set to Draft" type="object"
                         attrs="{'invisible': [('state', 'not in', ['validate', 'paid'])]}" />
 
-                    <button string="Add Bank Statement Lines" type="object" class="oe_highlight" name="action_open_wizard"/>
-
+                        <button string="Attach Statement Lines" type="object" class="oe_highlight" 
+                        name="action_open_attach_statement_line_wizard"/>
+                
                 </header>
 
                 <sheet class="balance_view_form_sheet">
@@ -124,13 +125,12 @@
                             <field name="description" string="" widget="html" placeholder="Add notes..."/>
                         </group>
                     </page>
-                    <page string="Bank Statement Lines">
-                        <field name="bank_statement_line_ids" widget="one2many_list" nolabel="1">
+                    <page string="Opérations bancaire">
+                        <field name="statement_line_ids" widget="one2many_list">
                             <tree editable="bottom">
+                                <!-- Fields you want to display from account.bank.statement.line -->
                                 <field name="name"/>
-                                <field name="date"/>
-                                <field name="amount"/>
-                                <!-- Add other fields you want to display here -->
+                                <!-- Add other fields as needed -->
                             </tree>
                         </field>
                     </page>
@@ -189,6 +189,7 @@
                 <field name="amount" sum="Total Amount" class="balance_view_amount fw-bolder"
                     decoration-danger="amount &lt; 0" decoration-success="amount &gt;= 0" />
                 <field name="balance" decoration-danger="balance &lt; 0" class="fw-bolder" />
+                <field name="state" decoration-success="state == 'paid'" widget="badge"  optional="show"/>
                 <field class="font-weight-bold" name="state" invisible="1" />
                 <field name="balance_correction" invisible="1" />
                 <field name="estimated_payment" invisible="1" />
@@ -198,21 +199,12 @@
 
 
 
-    <record id="view_bank_statement_line_wizard_form" model="ir.ui.view">
-        <field name="name">bank.statement.line.wizard.form</field>
-        <field name="model">balance</field>
-        <field name="arch" type="xml">
-            <form>
-                <group>
-                    <field name="bank_statement_line_ids" widget="many2many_tags" options="{'no_create': True}" />
-                </group>
-                <footer>
-                    <button string="Add" type="object" class="btn-primary" name="button_add_lines"/>
-                    <button string="Cancel" class="btn-secondary" special="cancel"/>
-
-                </footer>
-            </form>
-        </field>
+    <record id="action_attach_statement_line_wizard" model="ir.actions.act_window">
+        <field name="name">Attach Statement Line</field>
+        <field name="res_model">wizard.attach.statement.line</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="balance.view_wizard_attach_statement_line_form"/>
+        <field name="target">new</field>
     </record>
     
 </odoo>

@@ -77,7 +77,18 @@ class Balance(models.Model):
 
 
     month_year = fields.Char(string='Month & Year', compute='_compute_month_year')
-    bank_statement_line_ids = fields.Many2many('account.bank.statement.line', string="Bank Statement Lines")
+    # statement_line_ids = fields.One2many(
+    #         'account.bank.statement.line', 'balance_id', string='Statement Lines' ,)
+
+    statement_line_ids = fields.Many2many(
+    'account.bank.statement.line',
+    'balance_statement_line_rel',
+    'balance_id',
+    'statement_line_id',
+    string='Statement Lines')
+
+
+
 
     @api.depends('created_datetime')
     def _compute_month_year(self):
@@ -315,27 +326,20 @@ class Balance(models.Model):
                 print(invoice.id)
 
 
-    def button_add_lines(self):
-        context = dict(self._context or {})
-        active_id = context.get('active_id', False)
-        balance = self.env['balance'].browse(active_id)
 
-        for line in self.bank_statement_line_ids:
-            line.write({'balance_id': balance.id})
-
-        return {'type': 'ir.actions.act_window_close'}
+    def action_open_attach_statement_line_wizard(self):
+        return {
+            'name': 'Attach Statement Line',
+            'type': 'ir.actions.act_window',
+            'res_model': 'wizard.attach.statement.line',
+            'view_mode': 'form',
+            'view_id': self.env.ref('balance.view_wizard_attach_statement_line_form').id,
+            'target': 'new',
+            'context': {'default_balance_id': self.id}
+        }
     
 
-    def action_open_wizard(self):
-        view_id = self.env.ref('balance.view_bank_statement_line_wizard_form').id
-        return {
-            'name': 'Add Bank Statement Lines',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'balance',
-            'views': [(view_id, 'form')],
-            'view_id': view_id,
-            'target': 'new',
-            'context': {'default_bank_statement_line_ids': [(6, 0, self.bank_statement_line_ids.ids)]}
-        }
+    # def button_attach(self):
+    #     for line in self.statement_line_ids:
+    #         line.balance_id = self.balance_id
+    #     return {'type': 'ir.actions.act_window_close'}

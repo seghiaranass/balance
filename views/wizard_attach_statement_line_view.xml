@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_wizard_attach_statement_line_form" model="ir.ui.view">
+        <field name="name">wizard.attach.statement.line.form</field>
+        <field name="model">wizard.attach.statement.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="balance_id"/>
+                    <field name="statement_line_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <footer>
+                        <button string="Attach" type="object" class="btn-primary" name="button_attach"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                    
+                </footer>
+            </form>
+        </field>
+    </record>    
+</odoo>
