@@ -44,6 +44,9 @@
                         class="oe_highlight" attrs="{'invisible': [('state', '!=', 'validate')]}" />
                     <button name="set_to_draft" string="Set to Draft" type="object"
                         attrs="{'invisible': [('state', 'not in', ['validate', 'paid'])]}" />
+
+                    <button string="Add Bank Statement Lines" type="object" class="oe_highlight" name="action_open_wizard"/>
+
                 </header>
 
                 <sheet class="balance_view_form_sheet">
@@ -56,7 +59,7 @@
                     <group>
                         <group class="balance_view__customer_name">
                             <field name="customer_name" options="{'no_create': True}" />
-                            <field name="invoice_id" options="{'no_create': True}" />
+                            <field name="invoice_id" widget="many2many_tags" options="{'no_create': True}" />
                         </group>
                         <group>
                             <!-- <field name="created_datetime" widget="date"
@@ -121,6 +124,16 @@
                             <field name="description" string="" widget="html" placeholder="Add notes..."/>
                         </group>
                     </page>
+                    <page string="Bank Statement Lines">
+                        <field name="bank_statement_line_ids" widget="one2many_list" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="date"/>
+                                <field name="amount"/>
+                                <!-- Add other fields you want to display here -->
+                            </tree>
+                        </field>
+                    </page>
                 </notebook>
                 </sheet>
 
@@ -183,4 +196,23 @@
         </field>
     </record>
 
+
+
+    <record id="view_bank_statement_line_wizard_form" model="ir.ui.view">
+        <field name="name">bank.statement.line.wizard.form</field>
+        <field name="model">balance</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="bank_statement_line_ids" widget="many2many_tags" options="{'no_create': True}" />
+                </group>
+                <footer>
+                    <button string="Add" type="object" class="btn-primary" name="button_add_lines"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+
+                </footer>
+            </form>
+        </field>
+    </record>
+    
 </odoo>

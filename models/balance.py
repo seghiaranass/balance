@@ -18,7 +18,7 @@ class Balance(models.Model):
     _order = 'created_datetime desc'
 
     _rec_name = 'display_name'
-    invoice_id = fields.Many2one('account.move', string="Invoice", domain=[('state','=','posted'),('move_type', 'in', ['in_invoice', 'out_invoice'])])
+    invoice_id = fields.Many2many('account.move', 'account_balance_rel', 'balance_id', 'account_move_id',string="Invoice", domain=[('state','=','posted'),('move_type', 'in', ['in_invoice', 'out_invoice'])])
 
     create_uid = fields.Many2one('res.users', 'Created by')
     creator_image = fields.Binary(related='create_uid.image_1920', string="Creator's Image", readonly=True)
@@ -77,6 +77,7 @@ class Balance(models.Model):
 
 
     month_year = fields.Char(string='Month & Year', compute='_compute_month_year')
+    bank_statement_line_ids = fields.Many2many('account.bank.statement.line', string="Bank Statement Lines")
 
     @api.depends('created_datetime')
     def _compute_month_year(self):
@@ -236,6 +237,7 @@ class Balance(models.Model):
             if not existing_record:
                 vals = {
                     'reference': invoice.name or '',
+                    'invoice_id': invoice.id,
                     'customer_name': invoice.partner_id.id,
                     'created_datetime': fields.Datetime.to_string(combined_datetime),
                     'new_due_datetime': fields.Datetime.to_string(combined_datetime),
@@ -311,3 +313,29 @@ class Balance(models.Model):
             if invoice:
                 balance_record.invoice_id = invoice.id
                 print(invoice.id)
+
+
+    def button_add_lines(self):
+        context = dict(self._context or {})
+        active_id = context.get('active_id', False)
+        balance = self.env['balance'].browse(active_id)
+
+        for line in self.bank_statement_line_ids:
+            line.write({'balance_id': balance.id})
+
+        return {'type': 'ir.actions.act_window_close'}
+    
+
+    def action_open_wizard(self):
+        view_id = self.env.ref('balance.view_bank_statement_line_wizard_form').id
+        return {
+            'name': 'Add Bank Statement Lines',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'balance',
+            'views': [(view_id, 'form')],
+            'view_id': view_id,
+            'target': 'new',
+            'context': {'default_bank_statement_line_ids': [(6, 0, self.bank_statement_line_ids.ids)]}
+        }
