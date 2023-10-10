@@ -56,9 +56,7 @@
                     <group>
                         <group class="balance_view__customer_name">
                             <field name="customer_name" options="{'no_create': True}" />
-                        </group>
-                        <group >
-                            <field name="last_in_month"  />
+                            <field name="invoice_id" options="{'no_create': True}" />
                         </group>
                         <group>
                             <!-- <field name="created_datetime" widget="date"
