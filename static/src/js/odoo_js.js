@@ -29,9 +29,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (mutation.addedNodes.length) {
                 var isTargetAdded = false;
                 mutation.addedNodes.forEach(function(node) {
-                    if (node.classList && node.classList.contains('balance_view_created_datetime') || node.classList.contains('omni-extension-toast')) {
+                    if (node.classList && node.classList.contains('balance_view_created_datetime') ) {
                         isTargetAdded = true;
-                        console.log("fiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
                     }
                 });
 
