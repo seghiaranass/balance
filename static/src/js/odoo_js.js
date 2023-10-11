@@ -6,8 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
         var elements;
         if(is_balance){
              elements = document.querySelectorAll('div[name="created_datetime"]');
+             is_balance = false;
         }else if(is_facture){
              elements = document.querySelectorAll('td[name="invoice_date"]');
+             is_facture = false;
         }
         var lastMonth = null;
 
