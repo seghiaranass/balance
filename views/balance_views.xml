@@ -8,11 +8,16 @@
         <field name="model">balance</field>
         <field name="arch" type="xml">
             <search string="balance">
-                <field name="reference" />
+                <field name="reference" operator="ilike"  />
+                <field name="amount_str"  operator="ilike" />
+
                 <field name="customer_name" />
                 <field name="created_datetime" widget="date" />
                 <field name="payment_type" />
-                <field name="amount"  />
+                <!-- <field name="amount"   /> -->
+                <!-- <filter name="amount_str_filter" string="Amount Contains" domain="[('amount_str', 'ilike', self)]" help="Search by part of the amount"/> -->
+
+                <!-- <filter name="amount_str_filter" string="Amount Contains" domain="[('amount_str', 'ilike', self)]" help="Search by part of the amount"/> -->
                 <field name="balance" />
                 <field name="balance_correction" />
                 <field name="balance_correction" />

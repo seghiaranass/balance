@@ -30,6 +30,8 @@ class Balance(models.Model):
 
     modified_datetime = fields.Datetime(string="Modified Date", readonly=True)
     amount = fields.Float(required=True)
+    amount_str = fields.Char(string='Amount String', compute='_compute_amount_str',store=True)
+
     balance = fields.Float(compute="_compute_balance", store=True)
     description = fields.Html(string="Description")
     customer_id = fields.Integer()
@@ -49,6 +51,7 @@ class Balance(models.Model):
             ('lcn', 'LCN'),
             ('prelevement', 'Prélèvement'),
             ('autre', 'Autre'),
+            ('versement', 'Versement'),
         ], string='Payment Type', default='virement')
         
     
@@ -88,6 +91,10 @@ class Balance(models.Model):
     string='Statement Lines')
 
 
+    @api.depends('amount')
+    def _compute_amount_str(self):
+        for record in self:
+            record.amount_str = str(record.amount)
 
 
     @api.depends('created_datetime')
@@ -98,6 +105,16 @@ class Balance(models.Model):
                 record.month_year = date_obj.strftime('%B %Y')
             else:
                 record.month_year = ''
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        res = super(Balance, self).name_search(name, args, operator, limit)
+        if not args:
+            args = []
+
+        # Search for amount_str
+        domain = [('amount_str', operator, name)]
+        matches = self.search(domain + args, limit=limit)
+        res = matches.name_get()
+        return res
 
     @api.depends('description')
     def _compute_tooltip_field(self):
@@ -317,14 +334,7 @@ class Balance(models.Model):
     @api.model
     def update_invoice_id(self):
         for balance_record in self.search([]):  # Loop through all balance records
-            print(balance_record.reference)
-            # Search for the account.move record where the name matches the balance record's reference
-            invoice = self.env['account.move'].search([('name', '=', balance_record.reference), ('move_type', '=', 'out_invoice')], limit=1)
-            print(invoice)
-            if invoice:
-                balance_record.invoice_id = invoice.id
-                print(invoice.id)
-
+            balance_record.amount_str = str(balance_record.amount)
 
 
     def action_open_attach_statement_line_wizard(self):
@@ -343,3 +353,5 @@ class Balance(models.Model):
     #     for line in self.statement_line_ids:
     #         line.balance_id = self.balance_id
     #     return {'type': 'ir.actions.act_window_close'}
+
+
