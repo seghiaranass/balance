@@ -9,6 +9,7 @@
         'views/balance_actions.xml',
         'views/balance_tags_actions.xml',
         'views/balance_menus.xml',
+        'views/facture_clients_view_inherits.xml',
         # 'assets.xml',
     ],
     'images': ['static/description/icon.png'],

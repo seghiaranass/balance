@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="facture_client_form_inherit" model="ir.ui.view">
+        <field name="name">factures.clients.form.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="class">facture_client_view_bottom</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

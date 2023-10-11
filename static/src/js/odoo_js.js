@@ -1,9 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
     var targetNode = document.querySelector('body');
     var config = { attributes: false, childList: true, subtree: true };
-
+    let is_balance = is_facture = false;
     var processMonths = function() {
-        var elements = document.querySelectorAll('div[name="created_datetime"]');
+        var elements;
+        if(is_balance){
+             elements = document.querySelectorAll('div[name="created_datetime"]');
+        }else if(is_facture){
+             elements = document.querySelectorAll('td[name="invoice_date"]');
+        }
         var lastMonth = null;
 
         elements.forEach(function(element, index) {
@@ -13,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (lastMonth !== null && lastMonth !== monthYear) {
                 // Add border to the previous item if current month is different
                 // elements[index - 1].closest('tr').style.borderBottom = "5px solid black";
+                // elements[index - 1].closest('tr').classList.add("row_bottom_border")
                 elements[index - 1].closest('tr').classList.add("row_bottom_border")
             }
 
@@ -25,13 +31,26 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     var callback = function (mutationsList, observer) {
+        is_balance = is_facture = false;
         for (var mutation of mutationsList) {
             if (mutation.addedNodes.length) {
                 var isTargetAdded = false;
                 mutation.addedNodes.forEach(function(node) {
-                    if (node.classList && node.classList.contains('balance_view_created_datetime') ) {
+                    if (node.classList && node.classList.contains('balance_view_created_datetime') ||
+                    node.classList && node.classList.contains('facture_client_view_bottom')) {
                         isTargetAdded = true;
                     }
+
+                    if(node.classList && node.classList.contains('balance_view_created_datetime')){
+                        isTargetAdded = true;
+                        is_balance = true;
+                    }
+                    else if(node.classList && node.classList.contains('facture_client_view_bottom')){
+                        isTargetAdded = true;
+                        is_facture = true;
+                    }
+
+
                 });
 
                 if (isTargetAdded) {
