@@ -94,7 +94,7 @@ class Balance(models.Model):
     @api.depends('amount')
     def _compute_amount_str(self):
         for record in self:
-            record.amount_str = str(record.amount)
+            record.amount_str = "{:.2f}".format(record.amount)
 
 
     @api.depends('created_datetime')
@@ -334,7 +334,7 @@ class Balance(models.Model):
     @api.model
     def update_invoice_id(self):
         for balance_record in self.search([]):  # Loop through all balance records
-            balance_record.amount_str = str(balance_record.amount)
+            balance_record.amount_str = "{:.2f}".format(balance_record.amount)
 
 
     def action_open_attach_statement_line_wizard(self):

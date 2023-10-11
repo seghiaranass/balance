@@ -52,6 +52,9 @@
 .balance_view_ tr.row_bottom_border,.facture_client_view_bottom tr.row_bottom_border{
     border-bottom: 5px solid #9a7fb3  !important;
 }
+.balance_view_ .today_row_bottom_border{
+  background-color: #d1e2e6  !important;
+}
 
 
 span[raw-value="validate"],span[raw-value="draft"],span[raw-value="paid"]{
@@ -77,4 +80,7 @@ span[raw-value="paid"]{
 span[raw-value="draft"]{
     background-color: #c95928;
 }
+
+
+
 

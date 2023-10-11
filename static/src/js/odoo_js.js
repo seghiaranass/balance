@@ -1,9 +1,23 @@
 
 let processAllTableRows = (elements)=>{
-    console.log(elements);
-    var lastMonth = null;
+    const date = new Date();
+    let currentDay= String(date.getDate()).padStart(2, '0');
 
+    let currentMonth = String(date.getMonth()+1).padStart(2,"0");
+
+    let currentYear = String(date.getFullYear());
+
+    var lastMonth = null;
+    var lastDayInTodaysRows = null;
     elements.forEach(function(element, index) {
+
+            const splitElementDate = element.textContent.trim().split('/');
+            console.log(splitElementDate)
+            let isToday = splitElementDate[0] === currentDay && splitElementDate[1] === currentMonth &&  splitElementDate[2]=== currentYear  ? true : false;
+      
+            if(isToday){
+                element.classList.add("today_row_bottom_border")
+            }
 
         var monthYear = element.textContent.trim().split('/')[1];
 
@@ -12,6 +26,7 @@ let processAllTableRows = (elements)=>{
             // elements[index - 1].closest('tr').style.borderBottom = "5px solid black";
             // elements[index - 1].closest('tr').classList.add("row_bottom_border")
             elements[index - 1].closest('tr').classList.add("row_bottom_border")
+
         }
 
         if (index === elements.length - 1) {
@@ -35,15 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
              is_balance = false;
         }else if(is_facture){
              elements = document.querySelectorAll('td[name="invoice_date"]');
-            let factureNextBtn =  document.querySelector('button[aria-label="Next"]')
-            console.log("Hello");
-            if(factureNextBtn)
-                factureNextBtn.addEventListener('click',()=>{
-                    console.log("Clicked");
-                    let elements_ = document.querySelectorAll('td[name="invoice_date"]');
-                    processAllTableRows(elements_);
-            })
-
              is_facture = false;
         }
 
