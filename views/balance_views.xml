@@ -184,7 +184,7 @@
                 class="balance_view_ custom-border-bottom" js_class="button_in_tree">
                 <header>
                     <!-- <button string="Download SQL" type="object" name="download_as_sql"/> -->
-                    <button name="action_open_wizard" type="object" string="Change due date" class="oe_highlight"/>
+                    <button name="action_open_wizard" type="object" string="Change due date"/>
 
                 </header>
                 <!-- <field name="is_favorite" widget="boolean_favorite" string=""/> -->
