@@ -12,7 +12,7 @@ export class SaleListController extends ListController {
         // for (const record of this.model.root.records) {
         //     console.log(record.data.created_date_part);
         // }
-
+            document.getElementById('dropdown_date_filter').innerText = 'Today';
             const today = new Date().toISOString().slice(0, 10);
 
             // Assuming you want to filter based on some criteria, e.g., a field named 'state' being 'done'
@@ -39,6 +39,7 @@ export class SaleListController extends ListController {
 
 
     async OnThisWeekClick() {
+        document.getElementById('dropdown_date_filter').innerText = 'This Week';
         // Get today's date
         const currentDate = new Date();
     
@@ -82,6 +83,7 @@ export class SaleListController extends ListController {
         }
     }
     async OnNextWeekClick() {
+        document.getElementById('dropdown_date_filter').innerText = 'Next Week';
         // Get today's date
         const currentDate = new Date();
     
@@ -126,6 +128,7 @@ export class SaleListController extends ListController {
     }
     
     async OnThisMonthClick() {
+        document.getElementById('dropdown_date_filter').innerText = 'This Month';
         // Get today's date
         const currentDate = new Date();
     
@@ -166,6 +169,7 @@ export class SaleListController extends ListController {
     }
     
     async OnNextMonthClick() {
+        document.getElementById('dropdown_date_filter').innerText = 'Next Month';
         // Get today's date
         const currentDate = new Date();
     
@@ -202,6 +206,33 @@ export class SaleListController extends ListController {
                 this.renderer.updateState({}, { reload: true });
             }
         }
+    }
+    
+
+    async OnAllRecordsClick() {
+        // Set the domain to an empty array, essentially removing any filters
+        const domain = [];
+    
+        // Check if the model has a 'load' or 'reload' method to remove the domain and refresh the view
+        if (this.model && (this.model.load || this.model.reload)) {
+            const params = {
+                domain: domain,
+                // Add other parameters if needed
+            };
+            if (this.model.load) {
+                await this.model.load(params);
+            } else if (this.model.reload) {
+                await this.model.reload(params);
+            }
+    
+            // Refresh the renderer to reflect the changes, if necessary
+            if (this.renderer && this.renderer.updateState) {
+                this.renderer.updateState({}, { reload: true });
+            }
+        }
+    
+        // Update the button text
+        document.getElementById('dropdown_date_filter').innerText = 'All Records';
     }
     
 }

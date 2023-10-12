@@ -6,11 +6,12 @@
                Open Wizard
            </button> -->
            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown button
+              <button id="dropdown_date_filter" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                All Records
               </button>
               <ul class="dropdown-menu">
                 <!-- <li><a t-on-click="OnTestClick" class="dropdown-item" href="#">Date Filter</a></li> -->
+                <li><a class="dropdown-item" href="#" t-on-click="OnAllRecordsClick">All Records</a></li>
                 <li><a class="dropdown-item" href="#" t-on-click="OnTodayClick">Today</a></li>
                 <li><a class="dropdown-item" href="#" t-on-click="OnThisWeekClick">This Week</a></li>
                 <li><a class="dropdown-item" href="#" t-on-click="OnNextWeekClick">Next Week</a></li>
