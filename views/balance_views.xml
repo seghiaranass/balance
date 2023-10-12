@@ -185,7 +185,7 @@
                 <header>
                     <button string="Download SQL" type="object" name="download_as_sql"/>
                 </header>
-                <field name="is_favorite" widget="boolean_favorite" string=""/>
+                <!-- <field name="is_favorite" widget="boolean_favorite" string=""/> -->
                 <field name="reference" class="fw-bolder balance_view_reference"
                     decoration-warning="estimated_payment==True"  />
                 <!-- <button name="action_open_invoice" type="object" string="Open Invoice"
