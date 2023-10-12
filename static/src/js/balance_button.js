@@ -100,7 +100,7 @@ export class SaleListController extends ListController {
         const startNextWeekStr = startOfNextWeek.toISOString().slice(0, 10);
         const endNextWeekStr = endOfNextWeek.toISOString().slice(0, 10);
     
-        // Create a domain filter for records within the next week
+        // Create a domain filter for records within the next week shure
         const domain = [
             ['created_date_part', '>=', startNextWeekStr],
             ['created_date_part', '<=', endNextWeekStr]
