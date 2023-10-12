@@ -181,7 +181,7 @@ export class SaleListController extends ListController {
     
         // Create a domain filter for records within the next month
         const domain = [
-            ['created_date_part', '>=', startOfNextMonthStr],
+            ['created_date_part', '>', startOfNextMonthStr],
             ['created_date_part', '<=', endOfNextMonthStr]
         ];
     
