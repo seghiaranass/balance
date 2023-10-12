@@ -124,6 +124,7 @@ export class SaleListController extends ListController {
             }
         }
     }
+    
     async OnThisMonthClick() {
         // Get today's date
         const currentDate = new Date();
