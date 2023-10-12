@@ -20,8 +20,8 @@
             'balance/static/src/js/odoo_js.js',
             'balance/static/src/css/balance.css',
             'balance/static/src/css/balance_style.scss',
-            # 'balance/static/src/xml/balance_button.xml',
-            # 'balance/static/src/js/balance_button.js',
+            # 'balance/static/src/js/tree_button.js',
+            'balance/static/src/xml/balance_button.xml',
             
         ],
             'web.assets_qweb': [

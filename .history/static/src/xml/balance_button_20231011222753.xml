@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+   <t t-name="balance_button.ListView.Buttons" t-inherit="web.ListView.Buttons">
+       <xpath expr="//*[@class='o_control_panel']" position="after">
+           <div class="o_cp_bottom_left">
+            <button type="button" class="btn btn-primary" style="margin-left: 10px;"  t-on-click="OnTestClick">
+                Open Wizard
+            </button>
+           </div>
+       </xpath>
+   </t>
+</templates>

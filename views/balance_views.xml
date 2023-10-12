@@ -23,7 +23,23 @@
                 <field name="balance_correction" />
                 <field name="balance_tags_ids" widget="many2many_tags"
                     options="{'color_field': 'color'}" />
+            
+                <filter name="created_datetime" string="Date" date="created_datetime"/>
+
+                <!-- <filter string="Today" name="is_today" domain="[('is_today', '=', True)]"/>
+
+                
+                <filter name="invoice_date" string="Invoice Date 2" date="invoice_date"/>
+                <filter name="date" invisible="context.get('default_move_type') in ('out_invoice', 'out_refund', 'out_receipt')" string="Accounting Date" date="date"/>
+
+
+                -->
                 <separator />
+                    <filter string="Today" name="is_today" domain="[('is_today', '=', True)]"/>
+                    <filter string="This Week" name="is_week" domain="[('is_week', '=', True)]"/>
+                    <filter string="This Month" name="is_month" domain="[('is_month', '=', True)]"/>
+                    <filter string="Next Month" name="is_next_month" domain="[('is_next_month', '=', True)]"/>
+
 
                 <group expand="1" string="Group By">
                     <filter string="Due Date" name="groupby_due_date"
@@ -165,7 +181,7 @@
         <field name="arch" type="xml">
             <tree string="Balance" decoration-muted="balance_correction==True"
                 decoration-danger="created_datetime &lt; current_date and state not in ['paid']"
-                class="balance_view_ custom-border-bottom">
+                class="balance_view_ custom-border-bottom" js_class="button_in_tree">
                 <header>
                     <button string="Download SQL" type="object" name="download_as_sql"/>
                 </header>
