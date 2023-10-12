@@ -102,8 +102,8 @@ export class SaleListController extends ListController {
     
         // Create a domain filter for records within the next week
         const domain = [
-            ['created_date_part', '>=', startNextWeekStr],
-            ['created_date_part', '<=', endNextWeekStr]
+            ['created_date_part', '>', startNextWeekStr],
+            ['created_date_part', '<', endNextWeekStr]
         ];
     
         // The rest of your function remains the same to apply the domain and refresh the view
