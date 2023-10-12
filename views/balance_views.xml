@@ -35,10 +35,10 @@
 
                 -->
                 <separator />
-                    <filter string="Today" name="is_today" domain="[('is_today', '=', True)]"/>
+                    <!-- <filter string="Today" name="is_today" domain="[('is_today', '=', True)]"/>
                     <filter string="This Week" name="is_week" domain="[('is_week', '=', True)]"/>
                     <filter string="This Month" name="is_month" domain="[('is_month', '=', True)]"/>
-                    <filter string="Next Month" name="is_next_month" domain="[('is_next_month', '=', True)]"/>
+                    <filter string="Next Month" name="is_next_month" domain="[('is_next_month', '=', True)]"/> -->
 
 
                 <group expand="1" string="Group By">

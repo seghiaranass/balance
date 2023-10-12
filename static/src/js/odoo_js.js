@@ -68,6 +68,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         isTargetAdded = true;
                         is_balance = true;
                     }
+                    // if (node.tagName === 'TR') {
+                    //     let parentTable = node.closest('table');
+                    
+                    //     if (parentTable && parentTable.classList.contains('balance_view_tree') && node.parentElement.firstElementChild === node) {
+                    //         isTargetAdded = true;
+                    //         is_balance = true;
+                    //     }
+                    // }
                     if(node.classList && node.classList.contains('facture_client_view_bottom')){
                         isTargetAdded = true;
                         is_facture = true;

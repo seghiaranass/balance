@@ -93,63 +93,62 @@ class Balance(models.Model):
     string='Statement Lines')
 
 
-    is_today = fields.Boolean(string='Is Today', compute='_compute_is_today', default=False,store=True)
+    created_date_part = fields.Date(string='Created Date', compute='_compute_created_datetime_only_date_part',store=True)
     is_week = fields.Boolean(string='Is Week', compute='_compute_is_week' , default=False,store=True)
     is_month = fields.Boolean(string='Is Month', compute='_compute_is_month' , default=False,store=True)
     is_next_month = fields.Boolean(string='Is Next Month', compute='_compute_is_next_month' , default=False,store=True)
     
     @api.depends('created_datetime')
-    def _compute_is_today(self):
-        today = date.today()
+    def _compute_created_datetime_only_date_part(self):
         for record in self:
-            record.is_today = record.created_datetime and record.created_datetime.date() == today
+            record.created_date_part = fields.Datetime.from_string(record.created_datetime).date()
 
-    @api.depends('created_datetime')
-    def _compute_is_week(self):
-        today = date.today()
-        start_of_week = today - timedelta(days=today.weekday())
-        end_of_week = start_of_week + timedelta(days=6)
+    # @api.depends('created_datetime')
+    # def _compute_is_week(self):
+    #     today = date.today()
+    #     start_of_week = today - timedelta(days=today.weekday())
+    #     end_of_week = start_of_week + timedelta(days=6)
 
-        for record in self:
-            if start_of_week <= record.created_datetime.date() <= end_of_week:
-                record.is_week = record.created_datetime
-            else:
-                record.is_week = False
+    #     for record in self:
+    #         if start_of_week <= record.created_datetime.date() <= end_of_week:
+    #             record.is_week = record.created_datetime
+    #         else:
+    #             record.is_week = False
 
-    @api.depends('created_datetime')
-    def _compute_is_month(self):
-        today = date.today()
-        start_of_month = today.replace(day=1)
-        if today.month == 12:
-            end_of_month = today.replace(year=today.year+1,month=1,day=1)
-        else:
-            end_of_month = today.replace(month=today.month + 1, day = 1)
+    # @api.depends('created_datetime')
+    # def _compute_is_month(self):
+    #     today = date.today()
+    #     start_of_month = today.replace(day=1)
+    #     if today.month == 12:
+    #         end_of_month = today.replace(year=today.year+1,month=1,day=1)
+    #     else:
+    #         end_of_month = today.replace(month=today.month + 1, day = 1)
 
-        for record in self:
-            if start_of_month  <= record.created_datetime.date() <= end_of_month:
-                record.is_month = record.created_datetime
-            else:
-                record.is_month = False
+    #     for record in self:
+    #         if start_of_month  <= record.created_datetime.date() <= end_of_month:
+    #             record.is_month = record.created_datetime
+    #         else:
+    #             record.is_month = False
                 
-    @api.depends('created_datetime')
-    def _compute_is_next_month(self):
-        today = date.today()
+    # @api.depends('created_datetime')
+    # def _compute_is_next_month(self):
+    #     today = date.today()
 
-        if today.month == 12:
-            start_of_next_month  = today.replace(year=today.year+1, month=1, day=1)
-        else:
-            start_of_next_month  =  today.replace(month=today.month+1, day=1)
+    #     if today.month == 12:
+    #         start_of_next_month  = today.replace(year=today.year+1, month=1, day=1)
+    #     else:
+    #         start_of_next_month  =  today.replace(month=today.month+1, day=1)
 
-        if start_of_next_month.month == 12:
-            end_of_next_month   = start_of_next_month.replace(year=start_of_next_month.year+1, month=1, day=1) - timedelta(days=1)
-        else:
-            end_of_next_month   =  start_of_next_month.replace(month=start_of_next_month.month+1, day=1) - timedelta(days=1)
+    #     if start_of_next_month.month == 12:
+    #         end_of_next_month   = start_of_next_month.replace(year=start_of_next_month.year+1, month=1, day=1) - timedelta(days=1)
+    #     else:
+    #         end_of_next_month   =  start_of_next_month.replace(month=start_of_next_month.month+1, day=1) - timedelta(days=1)
 
-        for record in self:
-            if start_of_next_month  <= record.created_datetime.date() <= end_of_next_month:
-                record.is_next_month = record.created_datetime
-            else:
-                record.is_next_month = False
+    #     for record in self:
+    #         if start_of_next_month  <= record.created_datetime.date() <= end_of_next_month:
+    #             record.is_next_month = record.created_datetime
+    #         else:
+    #             record.is_next_month = False
 
 
     @api.depends('amount')

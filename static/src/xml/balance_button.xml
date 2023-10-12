@@ -2,9 +2,31 @@
 <templates>
    <t t-name="balance_button.ListView.Buttons" t-inherit="web.ListView.Buttons">
        <xpath expr="//*[@class='btn btn-primary o_list_button_add']" position="after">
-           <button type="button" class="btn btn-primary" style="margin-left: 10px;"  t-on-click="OnTestClick">
+           <!-- <button type="button" class="btn btn-primary" style="margin-left: 10px;"  t-on-click="OnTestClick">
                Open Wizard
-           </button>
+           </button> -->
+           <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown button
+              </button>
+              <ul class="dropdown-menu">
+                <li><a t-on-click="OnTestClick" class="dropdown-item" href="#">Date Filter</a></li>
+                <li><a class="dropdown-item" href="#" t-on-click="OnTodayClick">Today</a></li>
+                <li><a class="dropdown-item" href="#" t-on-click="OnThisWeekClick">This Week</a></li>
+                <li><a class="dropdown-item" href="#" t-on-click="OnNextWeekClick">Next Week</a></li>
+                <li><a class="dropdown-item" href="#" t-on-click="OnThisMonthClick">This Month</a></li>
+                <li><a class="dropdown-item" href="#" t-on-click="OnNextMonthClick">Next Month</a></li>
+                 <!-- Start of nested dropdown for "2023" -->
+                  <!-- <li class="dropdown-submenu">
+                    <a class="dropdown-item dropdown-toggle" href="#">2023</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Sub-item 1</a></li>
+                        <li><a class="dropdown-item" href="#">Sub-item 2</a></li>
+                    </ul>
+                </li> -->
+                <!-- End of nested dropdown for "2023" -->
+              </ul>
+          </div>
        </xpath>
    </t>
 </templates>
