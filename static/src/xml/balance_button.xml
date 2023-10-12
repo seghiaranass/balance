@@ -11,7 +11,7 @@
               </button>
               <ul class="dropdown-menu">
                 <!-- <li><a t-on-click="OnTestClick" class="dropdown-item" href="#">Date Filter</a></li> -->
-                <li><a class="dropdown-item" href="#" t-on-click="OnAllRecordsClick">All Records</a></li>
+                <li><a class="dropdown-item" href="#" t-on-click="OnAllRecordsClick">Date Filter</a></li>
                 <li><a class="dropdown-item" href="#" t-on-click="OnTodayClick">Today</a></li>
                 <li><a class="dropdown-item" href="#" t-on-click="OnThisWeekClick">This Week</a></li>
                 <li><a class="dropdown-item" href="#" t-on-click="OnNextWeekClick">Next Week</a></li>

@@ -26,4 +26,15 @@ action = {
 }
         </field>
     </record>
+
+
+
+    <record id="action_balance_change_wizard" model="ir.actions.act_window">
+        <field name="name">Change Datetime</field>
+        <field name="res_model">balance.change.due.date.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="balance.view_balance_change_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+    
 </odoo>

@@ -4,6 +4,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/wizard_attach_statement_line_view.xml',
+        'views/wizard/view_balance_change_wizard_form.xml',
         'views/balance_views.xml',
         'views/balance_tags_views.xml',
         'views/balance_actions.xml',

@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_balance,access_balance,model_balance,base.group_user,1,1,1,1
 access_balance_tags,access_balance_tags,model_balance_tags,base.group_user,1,1,1,1
 access_wizard_attach_statement_line,access_wizard_attach_statement_line,model_wizard_attach_statement_line,base.group_user,1,1,1,1
+access_balance_change_due_date_wizard,access_balance_change_due_date_wizard,model_balance_change_due_date_wizard,base.group_user,1,1,1,1

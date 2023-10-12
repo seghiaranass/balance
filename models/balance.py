@@ -2,7 +2,7 @@ from odoo import fields, models, api, _
 from datetime import datetime ,timedelta
 from odoo.exceptions import UserError
 from datetime import date
-
+import random
 from calendar import monthrange
 import logging
 _logger = logging.getLogger(__name__)
@@ -262,7 +262,9 @@ class Balance(models.Model):
     
             adjusted_datetime = fields.Datetime.from_string(vals['created_datetime']) + timedelta(hours=1)
             selected_date = adjusted_datetime.date()
-            current_time = fields.Datetime.from_string(fields.Datetime.now()).time()
+            random_minutes = random.randint(1, 59)
+            random_seconds = random.randint(1, 59)
+            current_time = fields.Datetime.from_string(fields.Datetime.now() +  timedelta(minutes=random_minutes,seconds=random_seconds)).time() 
             combined_datetime = datetime.combine(selected_date, current_time)
             vals['created_datetime'] = combined_datetime
 
@@ -415,3 +417,19 @@ class Balance(models.Model):
     #     return {'type': 'ir.actions.act_window_close'}
 
 
+
+
+
+    def action_open_wizard(self):
+        context = {
+            'default_new_datetime': fields.Datetime.now(),
+            'active_ids': self.ids
+        }
+        return {
+            'name': 'Change Datetime',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'balance.change.due.date.wizard',
+            'target': 'new',
+            'context': context,
+        }

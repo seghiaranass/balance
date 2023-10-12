@@ -183,7 +183,9 @@
                 decoration-danger="created_datetime &lt; current_date and state not in ['paid']"
                 class="balance_view_ custom-border-bottom" js_class="button_in_tree">
                 <header>
-                    <button string="Download SQL" type="object" name="download_as_sql"/>
+                    <!-- <button string="Download SQL" type="object" name="download_as_sql"/> -->
+                    <button name="action_open_wizard" type="object" string="Change due date" class="oe_highlight"/>
+
                 </header>
                 <!-- <field name="is_favorite" widget="boolean_favorite" string=""/> -->
                 <field name="reference" class="fw-bolder balance_view_reference"
