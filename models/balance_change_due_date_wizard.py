@@ -6,7 +6,7 @@ class BalanceChangeDueDateWizard(models.TransientModel):
     _name = 'balance.change.due.date.wizard'
     _description = 'Balance Change Wizard'
 
-    new_datetime = fields.Datetime(string='New Datetime', required=True)
+    new_datetime = fields.Datetime(string='New Due date', required=True)
 
    
 
