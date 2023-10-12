@@ -90,11 +90,11 @@ export class SaleListController extends ListController {
     
         // Calculate the start of the next week (assuming Sunday as the first day)
         const startOfNextWeek = new Date(currentDate);
-        startOfNextWeek.setDate(currentDate.getDate() - currentDay + 7);
+        startOfNextWeek.setDate(currentDate.getDate() - currentDay + 8);
     
         // Calculate the end of the next week (Saturday)
         const endOfNextWeek = new Date(startOfNextWeek);
-        endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
+        endOfNextWeek.setDate(startOfNextWeek.getDate() + 7);
     
         // Convert dates to YYYY-MM-DD format
         const startNextWeekStr = startOfNextWeek.toISOString().slice(0, 10);
