@@ -12,7 +12,7 @@ let processAllTableRows = (elements)=>{
     elements.forEach(function(element, index) {
 
             const splitElementDate = element.textContent.trim().split('/');
-            console.log(splitElementDate)
+
             let isToday = splitElementDate[0] === currentDay && splitElementDate[1] === currentMonth &&  splitElementDate[2]=== currentYear  ? true : false;
       
             if(isToday){

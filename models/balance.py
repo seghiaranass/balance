@@ -20,6 +20,7 @@ class Balance(models.Model):
 
     _rec_name = 'display_name'
     invoice_id = fields.Many2many('account.move', 'account_balance_rel', 'balance_id', 'account_move_id',string="Invoice", domain=[('state','=','posted'),('move_type', 'in', ['in_invoice', 'out_invoice'])])
+    is_favorite = fields.Boolean(string='Favorite',default=False)
 
     create_uid = fields.Many2one('res.users', 'Created by')
     creator_image = fields.Binary(related='create_uid.image_1920', string="Creator's Image", readonly=True)
@@ -96,6 +97,7 @@ class Balance(models.Model):
     is_week = fields.Boolean(string='Is Week', compute='_compute_is_week' , default=False,store=True)
     is_month = fields.Boolean(string='Is Month', compute='_compute_is_month' , default=False,store=True)
     is_next_month = fields.Boolean(string='Is Next Month', compute='_compute_is_next_month' , default=False,store=True)
+    
     @api.depends('created_datetime')
     def _compute_is_today(self):
         today = date.today()
