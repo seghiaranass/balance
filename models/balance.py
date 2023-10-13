@@ -19,25 +19,25 @@ class Balance(models.Model):
     _order = 'created_datetime desc'
 
     _rec_name = 'display_name'
-    invoice_id = fields.Many2many('account.move', 'account_balance_rel', 'balance_id', 'account_move_id',string="Invoice", domain=[('state','=','posted'),('move_type', 'in', ['in_invoice', 'out_invoice'])])
+    invoice_id = fields.Many2many('account.move', 'account_balance_rel', 'balance_id', 'account_move_id',string="Invoice", domain=[('state','=','posted'),('move_type', 'in', ['in_invoice', 'out_invoice'])],track_visibility='always')
     is_favorite = fields.Boolean(string='Favorite',default=False)
 
     create_uid = fields.Many2one('res.users', 'Created by')
     creator_image = fields.Binary(related='create_uid.image_1920', string="Creator's Image", readonly=True)
     creator_display = fields.Html(string="Created By", compute="_compute_creator_display")
     reference = fields.Char(required=True,track_visibility='always')
-    created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now)
-    new_due_datetime = fields.Datetime(string="Original Date", default=fields.Datetime.now)
-    paymentDate = fields.Datetime(string="Payment Date", default=False)
+    created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now,track_visibility='always')
+    new_due_datetime = fields.Datetime(string="Original Date", default=fields.Datetime.now,track_visibility='always')
+    paymentDate = fields.Datetime(string="Payment Date", default=False,track_visibility='always')
 
     modified_datetime = fields.Datetime(string="Modified Date", readonly=True)
-    amount = fields.Float(required=True)
+    amount = fields.Float(required=True,track_visibility='always')
     amount_str = fields.Char(string='Amount String', compute='_compute_amount_str',store=True)
 
     balance = fields.Float(compute="_compute_balance", store=True)
     description = fields.Html(string="Description")
     customer_id = fields.Integer()
-    customer_name = fields.Many2one('res.partner', string="Customer Name")
+    customer_name = fields.Many2one('res.partner', string="Customer Name",track_visibility='always')
     customer_display = fields.Html(string="Customer", compute="_compute_customer_display")
 
     customer_image = fields.Binary(related='customer_name.image_1920', string="Logo", readonly=True)
@@ -45,7 +45,8 @@ class Balance(models.Model):
             'balance.tags', 
             'balance_balance_tags_rel', 
             'balance_id', 'tag_id', 
-            string='Tags'
+            string='Tags',
+            track_visibility='always'
         )
     payment_type = fields.Selection([
             ('virement', 'Virement'),
@@ -64,8 +65,8 @@ class Balance(models.Model):
         ], string='Status', readonly=True, default='draft')
     
 
-    balance_correction = fields.Boolean(string="Balance Correction", default=False)
-    estimated_payment = fields.Boolean(string="Estimated",default=False)
+    balance_correction = fields.Boolean(string="Balance Correction", default=False,track_visibility='always')
+    estimated_payment = fields.Boolean(string="Estimated",default=False,track_visibility='always')
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
     
     tooltip_field = fields.Char(string="Tooltip Field", compute="_compute_tooltip_field")
@@ -78,7 +79,7 @@ class Balance(models.Model):
     transaction_type = fields.Selection([
     ('debit', 'DEBIT'),
     ('credit', 'CREDIT')
-], string='Transaction Type', default=False)
+], string='Transaction Type', default=False,track_visibility='always')
 
 
     month_year = fields.Char(string='Month & Year', compute='_compute_month_year')
