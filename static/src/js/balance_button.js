@@ -234,6 +234,51 @@ export class SaleListController extends ListController {
         // Update the button text
         document.getElementById('dropdown_date_filter').innerText = 'All Records';
     }
+
+    async OnDebitClick() {
+
+        const domain = [['amount', '<', 0]];
+
+        // Check if the model has a 'load' or 'reload' method to apply the domain and refresh the view
+        if (this.model && (this.model.load || this.model.reload)) {
+            const params = {
+                domain: domain,
+                // Add other parameters if needed
+            };
+            if (this.model.load) {
+                await this.model.load(params);
+            } else if (this.model.reload) {
+                await this.model.reload(params);
+            }
+
+            // Refresh the renderer to reflect the changes, if necessary
+            if (this.renderer && this.renderer.updateState) {
+                this.renderer.updateState({}, { reload: true });
+            }
+        }
+    }
+    async OnCreditClick() {
+
+        const domain = [['amount', '>=', 0]];
+
+        // Check if the model has a 'load' or 'reload' method to apply the domain and refresh the view
+        if (this.model && (this.model.load || this.model.reload)) {
+            const params = {
+                domain: domain,
+                // Add other parameters if needed
+            };
+            if (this.model.load) {
+                await this.model.load(params);
+            } else if (this.model.reload) {
+                await this.model.reload(params);
+            }
+
+            // Refresh the renderer to reflect the changes, if necessary
+            if (this.renderer && this.renderer.updateState) {
+                this.renderer.updateState({}, { reload: true });
+            }
+        }
+    }
     
 }
 

@@ -3,8 +3,9 @@
    <t t-name="balance_button.ListView.Buttons" t-inherit="web.ListView.Buttons">
        <xpath expr="//*[@class='btn btn-primary o_list_button_add']" position="after">
            <!-- <button type="button" class="btn btn-primary" style="margin-left: 10px;"  t-on-click="OnTestClick">
-               Open Wizard
+               Open Wizard 05/02/2024
            </button> -->
+
            <div class="dropdown">
               <button id="dropdown_date_filter" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Date Filter
@@ -28,6 +29,17 @@
                 <!-- End of nested dropdown for "2023" -->
               </ul>
           </div>
+          <div class="dropdown">
+            <button id="dropdown_date_filter" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Types
+            </button>
+            <ul class="dropdown-menu">
+              <!-- <li><a t-on-click="OnTestClick" class="dropdown-item" href="#">Date Filter</a></li> -->
+              <li><a class="dropdown-item" href="#" t-on-click="OnAllRecordsClick">All Records</a></li>
+              <li><a class="dropdown-item" href="#" t-on-click="OnDebitClick">Debit</a></li>
+              <li><a class="dropdown-item" href="#" t-on-click="OnCreditClick">Credit</a></li>
+            </ul>
+        </div>
        </xpath>
    </t>
 </templates>
