@@ -37,4 +37,18 @@ action = {
         <field name="target">new</field>
     </record>
     
+
+
+    <record id="action_balance_report" model="ir.actions.report">
+        <field name="name">Balance Report</field>
+        <field name="model">balance</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">balance.balance_report_template</field>
+        <field name="report_file">balance.balance_report_template</field>
+        <field name="binding_model_id" ref="model_balance"/>
+        <field name="binding_type">report</field>
+    </record>
+    
+    
+    
 </odoo>

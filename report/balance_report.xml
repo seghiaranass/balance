@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="balance_report_action" model="ir.actions.report">
+        <field name="name">balance_report</field>
+        <field name="model">balance</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">balance.blanace_report</field>
+        <field name="report_file">balance.blanace_report</field>
+        <!-- <field name="binding_model_id" ref="model_event_registration"/>
+        <field name="binding_type">report</field> -->
+    </record>
+</odoo>

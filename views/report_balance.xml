@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="balance_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <!-- Your design goes here -->
+                    <table class="table table-condensed">
+                        <thead>
+                            <!-- Add table headers based on tree view columns -->
+                            <tr>
+                                <th>Reference</th>
+                                <th>Customer</th>
+                                <th>Tags</th>
+                                <th>Due Date</th>
+                                <th>Original Date</th>
+                                <th>Created By</th>
+                                <th>Payment Type</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <!-- Add other headers -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="o">
+                                <tr>
+                                    <td><span t-field="o.reference"/></td>
+                                    <td><span t-field="o.customer_display"/></td>
+                                    <td><span t-field="o.balance_tags_ids"/></td>
+                                    <td><span t-field="o.created_datetime"/></td>
+                                    <td><span t-field="o.new_due_datetime"/></td>
+                                    <td><span t-field="o.creator_display"/></td>
+                                    <td><span t-field="o.payment_type"/></td>
+                                    <td><span t-field="o.amount"/></td>
+                                    <td><span t-field="o.balance"/></td>
+                                    <td><span t-field="o.state"/></td>
+                                    <!-- Add other columns -->
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
