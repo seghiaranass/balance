@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         is_balance = true;
                     }
 
-                    if(node.classList && node.classList.contains('facture_client_view_bottom')){
+                    if(node.nodeType === Node.ELEMENT_NODE && node.querySelector('td[name="invoice_date"]')){
                         isTargetAdded = true;
                         is_facture = true;
                     }
