@@ -12,7 +12,7 @@
               </button>
               <ul class="dropdown-menu">
                 <!-- <li><a t-on-click="OnTestClick" class="dropdown-item" href="#">Date Filter</a></li> -->
-                <li><a class="dropdown-item" href="#" t-on-click="OnAllRecordsClick">All Records</a></li>
+                <!-- <li><a class="dropdown-item" href="#" t-on-click="OnAllRecordsClick">All Records</a></li> -->
                 <li><a class="dropdown-item" href="#" t-on-click="OnTodayClick">Today</a></li>
                 <li><a class="dropdown-item" href="#" t-on-click="OnThisWeekClick">This Week</a></li>
                 <li><a class="dropdown-item" href="#" t-on-click="OnNextWeekClick">Next Week</a></li>
@@ -30,16 +30,19 @@
               </ul>
           </div>
           <div class="dropdown">
-            <button id="dropdown_date_filter" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button id="dropdown_types_filter" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Types
             </button>
             <ul class="dropdown-menu">
               <!-- <li><a t-on-click="OnTestClick" class="dropdown-item" href="#">Date Filter</a></li> -->
-              <li><a class="dropdown-item" href="#" t-on-click="OnAllRecordsClick">All Records</a></li>
+              <!-- <li><a class="dropdown-item" href="#" t-on-click="OnAllRecordsClick">All Records</a></li> -->
               <li><a class="dropdown-item" href="#" t-on-click="OnDebitClick">Debit</a></li>
               <li><a class="dropdown-item" href="#" t-on-click="OnCreditClick">Credit</a></li>
             </ul>
         </div>
+         <button id="clear_all_filter" class="btn btn-secondary " type="button" aria-expanded="false" t-on-click="OnClearAllFilter">
+            Clear Filter
+          </button>
        </xpath>
    </t>
 </templates>

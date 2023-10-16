@@ -4,6 +4,7 @@ import { registry } from '@web/core/registry';
 import { listView } from '@web/views/list/list_view';
 
 export class SaleListController extends ListController {
+   domain_global = [];
     setup() {
         super.setup();
     }
@@ -16,12 +17,13 @@ export class SaleListController extends ListController {
             const today = new Date().toISOString().slice(0, 10);
 
             // Assuming you want to filter based on some criteria, e.g., a field named 'state' being 'done'
-            const domain = [['created_date_part', '=', today]];
+            // const domain = [['created_date_part', '=', today]];
+            this.domain_global.push(['created_date_part', '=', today])
 
         // Check if the model has a 'load' or 'reload' method to apply the domain and refresh the view
         if (this.model && (this.model.load || this.model.reload)) {
             const params = {
-                domain: domain,
+                domain: this.domain_global,
                 // Add other parameters if needed
             };
             if (this.model.load) {
@@ -59,15 +61,17 @@ export class SaleListController extends ListController {
         const endWeekStr = endOfWeek.toISOString().slice(0, 10);
     
         // Create a domain filter for records within the current week
-        const domain = [
-            ['created_date_part', '>', startWeekStr],
-            ['created_date_part', '<', endWeekStr]
-        ];
-    
+        // const domain = [
+        //     ['created_date_part', '>', startWeekStr],
+        //     ['created_date_part', '<', endWeekStr]
+        // ];
+        
+        this.domain_global = []
+        this.domain_global.push( ['created_date_part', '>', startWeekStr],['created_date_part', '<', endWeekStr])
         // The rest of your function remains the same to apply the domain and refresh the view
         if (this.model && (this.model.load || this.model.reload)) {
             const params = {
-                domain: domain,
+                domain: this.domain_global,
                 // Add other parameters if needed
             };
             if (this.model.load) {
@@ -103,15 +107,16 @@ export class SaleListController extends ListController {
         const endNextWeekStr = endOfNextWeek.toISOString().slice(0, 10);
     
         // Create a domain filter for records within the next week shure
-        const domain = [
-            ['created_date_part', '>=', startNextWeekStr],
-            ['created_date_part', '<=', endNextWeekStr]
-        ];
-    
+        // const domain = [
+        //     ['created_date_part', '>=', startNextWeekStr],
+        //     ['created_date_part', '<=', endNextWeekStr]
+        // ];
+        this.domain_global = []
+        this.domain_global.push( ['created_date_part', '>=', startNextWeekStr], ['created_date_part', '<=', endNextWeekStr])
         // The rest of your function remains the same to apply the domain and refresh the view
         if (this.model && (this.model.load || this.model.reload)) {
             const params = {
-                domain: domain,
+                domain: this.domain_global,
                 // Add other parameters if needed
             };
             if (this.model.load) {
@@ -144,15 +149,17 @@ export class SaleListController extends ListController {
         const endOfMonthStr = endOfMonth.toISOString().slice(0, 10);
     
         // Create a domain filter for records within the current month
-        const domain = [
-            ['created_date_part', '>', startOfMonthStr],
-            ['created_date_part', '<=', endOfMonthStr]
-        ];
-    
+        // const domain = [
+        //     ['created_date_part', '>', startOfMonthStr],
+        //     ['created_date_part', '<=', endOfMonthStr]
+        // ];
+
+        this.domain_global = [];
+        this.domain_global.push(['created_date_part', '>', startOfMonthStr], ['created_date_part', '<=', endOfMonthStr])
         // The rest of your function remains the same to apply the domain and refresh the view
         if (this.model && (this.model.load || this.model.reload)) {
             const params = {
-                domain: domain,
+                domain:  this.domain_global,
                 // Add other parameters if needed
             };
             if (this.model.load) {
@@ -188,11 +195,14 @@ export class SaleListController extends ListController {
             ['created_date_part', '>', startOfNextMonthStr],
             ['created_date_part', '<=', endOfNextMonthStr]
         ];
-    
+        
+        this.domain_global = []
+        this.domain_global.push(['created_date_part', '>', startOfNextMonthStr],['created_date_part', '<=', endOfNextMonthStr])
+
         // The rest of your function remains the same to apply the domain and refresh the view
         if (this.model && (this.model.load || this.model.reload)) {
             const params = {
-                domain: domain,
+                domain: this.domain_global,
                 // Add other parameters if needed
             };
             if (this.model.load) {
@@ -212,7 +222,7 @@ export class SaleListController extends ListController {
     async OnAllRecordsClick() {
         // Set the domain to an empty array, essentially removing any filters
         const domain = [];
-    
+        this.domain_global = [];
         // Check if the model has a 'load' or 'reload' method to remove the domain and refresh the view
         if (this.model && (this.model.load || this.model.reload)) {
             const params = {
@@ -231,18 +241,19 @@ export class SaleListController extends ListController {
             }
         }
     
-        // Update the button text
-        document.getElementById('dropdown_date_filter').innerText = 'All Records';
+        // // Update the button text
+        // document.getElementById('dropdown_date_filter').innerText = 'All Records';
+        // document.getElementById('dropdown_types_filter').innerText = 'All Records';
     }
 
     async OnDebitClick() {
-
+        document.getElementById('dropdown_types_filter').innerText = 'Debit';
         const domain = [['amount', '<', 0]];
-
+        
         // Check if the model has a 'load' or 'reload' method to apply the domain and refresh the view
         if (this.model && (this.model.load || this.model.reload)) {
             const params = {
-                domain: domain,
+                domain: [...this.domain_global,...domain],
                 // Add other parameters if needed
             };
             if (this.model.load) {
@@ -258,13 +269,13 @@ export class SaleListController extends ListController {
         }
     }
     async OnCreditClick() {
-
+        document.getElementById('dropdown_types_filter').innerText = 'Credit';
         const domain = [['amount', '>=', 0]];
 
         // Check if the model has a 'load' or 'reload' method to apply the domain and refresh the view
         if (this.model && (this.model.load || this.model.reload)) {
             const params = {
-                domain: domain,
+                domain:  [...this.domain_global,...domain],
                 // Add other parameters if needed
             };
             if (this.model.load) {
@@ -278,6 +289,15 @@ export class SaleListController extends ListController {
                 this.renderer.updateState({}, { reload: true });
             }
         }
+    }
+
+
+    async OnClearAllFilter(){
+        this.domain_global = [];
+        // Update the button text
+        document.getElementById('dropdown_date_filter').innerText = 'Date Filter';
+        document.getElementById('dropdown_types_filter').innerText = 'Types';
+        this.OnAllRecordsClick();
     }
     
 }
