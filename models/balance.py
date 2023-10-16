@@ -19,7 +19,7 @@ class Balance(models.Model):
     _order = 'created_datetime desc, amount desc'
 
     _rec_name = 'display_name'
-    invoice_id = fields.Many2many('account.move', 'account_balance_rel', 'balance_id', 'account_move_id',string="Invoice", domain=[('state','=','posted'),('move_type', 'in', ['in_invoice', 'out_invoice'])],track_visibility='always')
+    invoice_id = fields.Many2many('account.move', 'account_balance_rel', 'balance_id', 'account_move_id',string="Invoice", domain=[('move_type', 'in', ['in_invoice', 'out_invoice'])],track_visibility='always')
     is_favorite = fields.Boolean(string='Favorite',default=False)
 
     create_uid = fields.Many2one('res.users', 'Created by')

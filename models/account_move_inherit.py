@@ -47,6 +47,7 @@ class AccountMove(models.Model):
             # Find related balance records based on the reference
             for move in self:
                 if move.state == 'posted' and move.move_type == 'out_invoice':
+
                     balance_records = self.env['balance'].search([('reference', '=', move.name)])
                     # Unlink (delete) related balance records
                     balance_records.unlink()
@@ -54,3 +55,13 @@ class AccountMove(models.Model):
             # Then, proceed to reset the invoice to draft by calling the super method
             return super(AccountMove, self).button_draft()
     
+    @api.depends('name', 'ref', 'move_type')
+    def name_get(self):
+        result = []
+        for record in self:
+            if record.move_type == 'in_invoice':
+                name = record.ref and f'{record.ref} ({record.name})' or record.name
+            else:
+                name = record.name
+            result.append((record.id, name))
+        return result
