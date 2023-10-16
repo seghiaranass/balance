@@ -5,7 +5,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_out_invoice_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
+            <xpath expr="//tree/field[@name='invoice_date']" position="attributes">
                 <attribute name="class">facture_client_view_bottom</attribute>
             </xpath>
         </field>
