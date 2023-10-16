@@ -16,7 +16,7 @@ class Balance(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     _description = "This model for calculationg balance every add or modification"
-    _order = 'created_datetime desc'
+    _order = 'created_datetime desc, amount desc'
 
     _rec_name = 'display_name'
     invoice_id = fields.Many2many('account.move', 'account_balance_rel', 'balance_id', 'account_move_id',string="Invoice", domain=[('state','=','posted'),('move_type', 'in', ['in_invoice', 'out_invoice'])],track_visibility='always')
