@@ -7,4 +7,4 @@ class SaleOrderLineTrackVisibilityInherit(models.Model):
         string="Quantity",
         compute='_compute_product_uom_qty',
         digits='Product Unit of Measure', default=1.0,
-        store=True, readonly=False, required=True, precompute=True,track_visibility='always')
+        store=True, readonly=False, required=True, precompute=True,track_visibility='always',tracking=True)
