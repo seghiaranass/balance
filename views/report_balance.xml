@@ -5,20 +5,33 @@
             <t t-call="web.external_layout">
                 <div class="page">
                     <!-- Your design goes here -->
+                    <style>
+                        .table {
+                            width: 100%;
+                            border-collapse: collapse;
+                        }
+                        .table th, .table td {
+                            border: 1px solid black;
+                            padding: 8px 12px;
+                        }
+                        .table thead {
+                            background-color: #f2f2f2;
+                        }
+                    </style>
                     <table class="table table-condensed">
-                        <thead>
+                        <thead> 
                             <!-- Add table headers based on tree view columns -->
                             <tr>
                                 <th>Reference</th>
                                 <th>Customer</th>
                                 <th>Tags</th>
-                                <th>Due Date</th>
+                                <!-- <th>Due Date</th> -->
                                 <th>Original Date</th>
-                                <th>Created By</th>
+                                <!-- <th>Created By</th> -->
                                 <th>Payment Type</th>
                                 <th>Amount</th>
-                                <th>Balance</th>
-                                <th>Status</th>
+                                <!-- <th>Balance</th> -->
+                                <!-- <th>Status</th> -->
                                 <!-- Add other headers -->
                             </tr>
                         </thead>
@@ -29,12 +42,12 @@
                                     <td><span t-field="o.customer_display"/></td>
                                     <td><span t-field="o.balance_tags_ids"/></td>
                                     <td><span t-field="o.created_datetime"/></td>
-                                    <td><span t-field="o.new_due_datetime"/></td>
-                                    <td><span t-field="o.creator_display"/></td>
+                                    <!-- <td><span t-field="o.new_due_datetime"/></td> -->
+                                    <!-- <td><span t-field="o.creator_display"/></td> -->
                                     <td><span t-field="o.payment_type"/></td>
                                     <td><span t-field="o.amount"/></td>
-                                    <td><span t-field="o.balance"/></td>
-                                    <td><span t-field="o.state"/></td>
+                                    <!-- <td><span t-field="o.balance"/></td> -->
+                                    <!-- <td><span t-field="o.state"/></td> -->
                                     <!-- Add other columns -->
                                 </tr>
                             </t>

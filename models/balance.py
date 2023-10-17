@@ -179,8 +179,8 @@ class Balance(models.Model):
 
     @api.depends('description')
     def _compute_tooltip_field(self):
-        for record in self:
-            record.tooltip_field = record.description 
+        for index, record in enumerate(self, start=1):
+            record.tooltip_field = str(index)
 
 
     @api.onchange('transaction_type')
@@ -435,3 +435,6 @@ class Balance(models.Model):
             'context': context,
         }
 
+
+
+  

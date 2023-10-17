@@ -179,7 +179,7 @@
         <field name="name">balance.tree</field>
         <field name="model">balance</field>
         <field name="arch" type="xml">
-            <tree string="Balance" decoration-muted="balance_correction==True"
+            <tree string="Balance" decoration-muted="balance_correction==True" 
                 decoration-danger="created_datetime &lt; current_date and state not in ['paid']"
                 class="balance_view_ custom-border-bottom" js_class="button_in_tree">
                 <header>
@@ -220,6 +220,8 @@
                 <field class="font-weight-bold" name="state" invisible="1" />
                 <field name="balance_correction" invisible="1" />
                 <field name="estimated_payment" invisible="1" />
+                <field name="tooltip_field"  />
+                
             </tree>
         </field>
     </record>
@@ -233,5 +235,13 @@
         <field name="view_id" ref="balance.view_wizard_attach_statement_line_form"/>
         <field name="target">new</field>
     </record>
+    
+
+
+
+
+
+
+
     
 </odoo>

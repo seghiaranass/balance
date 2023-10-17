@@ -27,6 +27,7 @@
             'balance/static/src/css/balance_style.scss',
             'balance/static/src/xml/balance_button.xml',
             'balance/static/src/js/balance_button.js',
+            'balance/static/src/js/testjs.js',
             # 'balance/static/src/js/add_pin.xml',
             
         ],
