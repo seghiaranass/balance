@@ -6,6 +6,13 @@ class SaleOrderLineInherit(models.Model):
     _inherit = ['sale.order.line']
 
     def write(self, values):
+
+
+        if self.purchase_price and self.order_id.partner_id.property_account_position_id:
+            _logger.info("((((((((((()))))))))))")
+            _logger.info(self.order_id.partner_id.property_account_position_id)
+            _logger.info("((((((((((()))))))))))")
+
         old_values = {field: self[field] for field in values.keys()}
         
         result = super().write(values)
@@ -15,7 +22,7 @@ class SaleOrderLineInherit(models.Model):
             new_value = self[field]
             if old_value != new_value:
                 field_label = self._fields[field].string or field
-                messages.append(f"is it : {field_label}: {old_value} -> {new_value}")
+                messages.append(f"{field_label}: {old_value} -> {new_value}")
         
         message_body = "<br/>".join(messages)
         if message_body and 'order_id' in self._fields:
