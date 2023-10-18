@@ -7,4 +7,6 @@ class SaleOrderLineInherit(models.Model):
 
     def write(self, values):
         result = super().write(values)
-        _logger.info("Heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+        orders = self.mapped('order_id')
+        for order in orders:
+            order.message_post(body="Hello worlds")
