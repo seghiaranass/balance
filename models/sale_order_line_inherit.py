@@ -15,7 +15,7 @@ class SaleOrderLineInherit(models.Model):
             new_value = self[field]
             if old_value != new_value:
                 field_label = self._fields[field].string or field
-                messages.append(f"{field_label}: {old_value} -> {new_value}")
+                messages.append(f"is it : {field_label}: {old_value} -> {new_value}")
         
         message_body = "<br/>".join(messages)
         if message_body and 'order_id' in self._fields:
