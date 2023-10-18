@@ -12,6 +12,8 @@
         'views/balance_menus.xml',
         'views/facture_clients_view_inherits.xml',
         'views/report_balance.xml',
+        'views/automated_actions_data.xml',
+
 
         # 
 

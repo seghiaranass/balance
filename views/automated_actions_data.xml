@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_track_payment_term_changes" model="base.automation">
+        <field name="name">Track Payment Term Changes on Sale Order</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="trigger">on_write</field>
+        <field name="code">
+            <![CDATA[
+                    record.message_post(body="Field 'payment_term_id' changed: %s → %s" % (record._origin.payment_term_id.id, record.payment_term_id.id))
+            ]]>
+        </field>
+    </record>
+</odoo>
