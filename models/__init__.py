@@ -5,3 +5,4 @@ from . import bank_statement_line_inherited
 from . import wizard_attach_statement_line
 from . import balance_change_due_date_wizard
 from . import sale_order_line_inherit
+from . import sale_order_inherited
