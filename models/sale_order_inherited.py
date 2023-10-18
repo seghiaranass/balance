@@ -10,16 +10,8 @@ class SaleOrderInherit(models.Model):
 
     def create(self, vals_list):
         for vals in vals_list:
-            _logger.info("Inside create method...")
-            _logger.info(vals)
-
-            # Ensure that 'order_id' and 'purchase_price' exist in the vals dictionary
             if 'order_id' in vals and 'purchase_price' in vals:
-                _logger.info("Haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                # Fetch the associated sale.order record
                 order = self.env['sale.order'].browse(vals['order_id'])
-
-                # If the partner's property_account_position_id is set, modify the purchase_price
                 if order.partner_id.property_account_position_id:
                     _logger.info("Applying multiplier to purchase_price...")
                     vals["purchase_price"] = float(vals["purchase_price"]) * 1.2
