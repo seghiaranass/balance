@@ -8,20 +8,6 @@ class SaleOrderInherit(models.Model):
 
 
 
-    def create(self, vals_list):
-        for vals in vals_list:
-            if 'order_id' in vals and 'purchase_price' in vals:
-                order = self.env['sale.order'].browse(vals['order_id'])
-                if order.partner_id.property_account_position_id:
-                    _logger.info("Applying multiplier to purchase_price...")
-                    vals["purchase_price"] = float(vals["purchase_price"]) * 1.2
-                else:
-                    _logger.info("property_account_position_id is not set for the partner.")
-
-        return super().create(vals_list)
-
-
-
     def write(self, values):
         old_values = {}
         for field in values.keys():
