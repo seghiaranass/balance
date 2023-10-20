@@ -204,6 +204,7 @@
                 <!-- <field name="customer_image" class="balance_view_customer_image" widget='image'
                 options="{'size': [80, 35]}"/> -->
                 <field name="customer_display" widget='html' />
+                <field name="invoice_order_number" />
                 <!-- <field name="customer_display" widget='html'  help="tooltip_field" options="{'always_reload': True}" /> -->
 
                 <field name="balance_tags_ids" widget="many2many_tags"
@@ -225,7 +226,7 @@
                 <field class="font-weight-bold" name="state" invisible="1" />
                 <field name="balance_correction" invisible="1" />
                 <field name="estimated_payment" invisible="1" />
-                <field name="tooltip_field"  />
+                <!-- <field name="tooltip_field"  /> -->
                 
             </tree>
         </field>

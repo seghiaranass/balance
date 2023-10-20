@@ -401,18 +401,14 @@ class Balance(models.Model):
             'target': 'self',
         }
 
+
+
     @api.model
-    def update_balance_from_account_move(self):
-        account_move = self.env['account.move']
-
-        for record in self:
-            matched_move = account_move.search([
-                ('name', '=', record.reference),
-            ], limit=1)  
-
-            if matched_move:
-                record.invoice_order_number = matched_move.x_studio_n_de_commande_
-
+    def update_invoice_number(self):
+        for balance_record in self.search([]):  # Loop through all balance records
+            get_fac = self.env['account.move'].search([('name', '=', balance_record.reference)], limit=1)
+            if get_fac:
+                balance_record.invoice_order_number = get_fac.x_studio_n_de_commande_
 
 
     def action_open_attach_statement_line_wizard(self):
