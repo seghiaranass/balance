@@ -70,7 +70,16 @@
                     name="action_open_attach_statement_line_wizard"/>
 
                     <button string="Imprimer" type="object" name="print_balance_report" class="oe_highlight"/>
+                    <button string="Full View" type="object" name="open_balance_form" class="oe_highlight"/>
 
+
+                    <!-- <div class="oe_buttons_dropdown" groups="base.group_no_one">
+                        <button type="object" class="oe_dropdown_toggle oe_dropdown_arrow" string="Action"/>
+                        <ul class="oe_dropdown_menu">
+                            <li><a type="object" name="copy_data">Duplicate</a></li>
+                            <li><a type="delete">Delete</a></li>
+                        </ul>
+                    </div> -->
                 </header>
 
                 <sheet class="balance_view_form_sheet">

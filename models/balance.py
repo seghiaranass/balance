@@ -458,3 +458,15 @@ class Balance(models.Model):
             'model': 'balance',
             'report_type': "qweb-pdf",
         }
+    
+
+    def open_balance_form(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Balance',
+            'view_mode': 'form',
+            'res_model': 'balance',
+            'res_id': self.id,
+            'target': 'current',
+        }
