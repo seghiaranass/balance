@@ -309,6 +309,30 @@ export class SaleListController extends ListController {
         document.getElementById('dropdown_types_filter').innerText = 'Types';
         this.OnAllRecordsClick();
     }
+
+    async OnLastModified() {
+    
+        // Check if the model has a 'load' or 'reload' method to apply the sort order and refresh the view
+        if (this.model && (this.model.load || this.model.reload)) {
+            const params = {
+                // Sort by write_date in descending order to get the most recent records first
+                orderBy: [{name: 'write_date', asc: false}],
+                // Add other parameters if needed
+            };
+            
+            if (this.model.load) {
+                await this.model.load(params);
+            } else if (this.model.reload) {
+                await this.model.reload(params);
+            }
+    
+            // Refresh the renderer to reflect the changes, if necessary
+            if (this.renderer && this.renderer.updateState) {
+                this.renderer.updateState({}, { reload: true });
+            }
+        }
+    }
+    
     
 }
 

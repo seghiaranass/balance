@@ -450,3 +450,11 @@ class Balance(models.Model):
     @api.onchange('reference')
     def lock_for_editing(self):
         _logger.info("woooooow woooooooooooow woooooooooooooooooooooooooooooooow")
+
+    def print_balance_report(self):
+        return {
+            'type': 'ir.actions.report',
+            'report_name': 'balance.balance_report_template',
+            'model': 'balance',
+            'report_type': "qweb-pdf",
+        }

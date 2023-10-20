@@ -43,6 +43,10 @@
          <button id="clear_all_filter" class="btn btn-secondary " type="button" aria-expanded="false" t-on-click="OnClearAllFilter">
             Clear Filter
           </button>
+
+          <button  t-on-click="OnLastModified"  class="btn btn-secondary " type="button" >
+            Last modified
+          </button>
        </xpath>
    </t>
 </templates>

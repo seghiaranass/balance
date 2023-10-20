@@ -66,9 +66,11 @@
                     <button name="set_to_draft" string="Set to Draft" type="object"
                         attrs="{'invisible': [('state', 'not in', ['validate', 'paid'])]}" />
 
-                        <button string="Attach Statement Lines" type="object" class="oe_highlight" 
-                        name="action_open_attach_statement_line_wizard"/>
-                
+                    <button string="Attach Statement Lines" type="object" class="oe_highlight" 
+                    name="action_open_attach_statement_line_wizard"/>
+
+                    <button string="Imprimer" type="object" name="print_balance_report" class="oe_highlight"/>
+
                 </header>
 
                 <sheet class="balance_view_form_sheet">
