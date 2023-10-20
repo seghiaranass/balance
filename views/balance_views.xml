@@ -217,6 +217,8 @@
                     widget="date" />
                 <field name="new_due_datetime" class="balance_view_created_datetime fw-bolder"
                     widget="date" />
+                    <field name="created_date_part" class="balance_view_created_datetime fw-bolder"
+                    string="Create Date part" invisible="1"/>
                 <field name="paymentDate" class="balance_view_created_datetime fw-bolder"
                     widget="date" invisible="1" />
                 <field name="creator_display" widget='html' />
