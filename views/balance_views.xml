@@ -133,6 +133,11 @@
                     </group>
                     <group>
                         <group>
+                            <field name="invoice_order_number" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
                             <field name="balance" invisible="1" />
                         </group>
 

@@ -12,6 +12,8 @@
         'views/balance_menus.xml',
         'views/facture_clients_view_inherits.xml',
         'views/report_balance.xml',
+        # 'views/edit_lock_template.xml',
+
         # 'views/automated_actions_data.xml',
 
 
@@ -30,11 +32,15 @@
             'balance/static/src/xml/balance_button.xml',
             'balance/static/src/js/balance_button.js',
             'balance/static/src/js/testjs.js',
+            'balance/static/src/xml/add_pin.xml',
+            # 'balance/static/src/xml/edit_lock_template.xml'
+            'balance/static/src/js/edit_lock.js',
             # 'balance/static/src/js/add_pin.xml',
             
         ],
             'web.assets_qweb': [
                 'balance/static/src/xml/tree_button.xml',
+                
             ],
 
     },

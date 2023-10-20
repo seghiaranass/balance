@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates xml:space="preserve">
-   <t t-name="list_tree_pin_record.AllHeadListRender" owl="1"
-      t-inherit="web.ListRenderer" t-inherit-mode="extension">
-   <xpath expr="//table/thead/tr/th[@t-if='hasSelectors']" position="before">
-           <th/>
-   </xpath>
-   </t>
-   <t t-name="list_tree_pin_record.RowListView"
-      t-inherit="web.ListRenderer.RecordRow" to-inherit-mode="extension"
-      owl="1">
-   <xpath expr="//td[hasclass('o_list_record_selector')]" position="before">
-       <t t-if="hasSelectors">
-           <td>
-               <i class="fa fa-thumb-tack" style="color: rgb(60, 179, 113);"
-                           t-on-click="(ev) => this.pin_record(ev,record)"/>
-           </td>
-       </t>
-   </xpath>
-   </t>
-</templates>
+<odoo>
+    <template t-name="web_enterprise.HomeMenu_inh"  id="home_menu_inherited" inherit_id="web_enterprise.HomeMenu">
+        <xpath expr="//div[1]" position="before">
+         <h1>Hello</h1>
+            <!-- <t t-foreach="state.customRecords" t-as="record">
+               <h1>Hello</h1>
+            </t> -->
+        </xpath>
+    </template>
+</odoo>

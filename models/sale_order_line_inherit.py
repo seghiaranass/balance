@@ -23,9 +23,7 @@ class SaleOrderLineInherit(models.Model):
 
 
         if self.purchase_price and self.order_id.partner_id.property_account_position_id:
-            _logger.info("((((((((((()))))))))))")
             _logger.info(self.order_id.partner_id.property_account_position_id)
-            _logger.info("((((((((((()))))))))))")
 
         old_values = {field: self[field] for field in values.keys()}
         

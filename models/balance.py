@@ -3,7 +3,6 @@ from datetime import datetime ,timedelta
 from odoo.exceptions import UserError
 from datetime import date
 import random
-from calendar import monthrange
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -19,25 +18,25 @@ class Balance(models.Model):
     _order = 'created_datetime desc, amount desc'
 
     _rec_name = 'display_name'
-    invoice_id = fields.Many2many('account.move', 'account_balance_rel', 'balance_id', 'account_move_id',string="Invoice", domain=[('move_type', 'in', ['in_invoice', 'out_invoice'])],track_visibility='always')
+    invoice_id = fields.Many2many('account.move', 'account_balance_rel', 'balance_id', 'account_move_id',string="Invoice", domain=[('move_type', 'in', ['in_invoice', 'out_invoice'])],tracking=True)
     is_favorite = fields.Boolean(string='Favorite',default=False)
 
     create_uid = fields.Many2one('res.users', 'Created by')
     creator_image = fields.Binary(related='create_uid.image_1920', string="Creator's Image", readonly=True)
     creator_display = fields.Html(string="Created By", compute="_compute_creator_display")
-    reference = fields.Char(required=True,track_visibility='always')
-    created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now,track_visibility='always')
-    new_due_datetime = fields.Datetime(string="Original Date", default=fields.Datetime.now,track_visibility='always')
-    paymentDate = fields.Datetime(string="Payment Date", default=False,track_visibility='always')
+    reference = fields.Char(required=True,tracking=True)
+    created_datetime = fields.Datetime(string="Due Date", default=fields.Datetime.now,tracking=True)
+    new_due_datetime = fields.Datetime(string="Original Date", default=fields.Datetime.now,tracking=True)
+    paymentDate = fields.Datetime(string="Payment Date", default=False,tracking=True)
 
     modified_datetime = fields.Datetime(string="Modified Date", readonly=True)
-    amount = fields.Float(required=True,track_visibility='always')
+    amount = fields.Float(required=True,tracking=True)
     amount_str = fields.Char(string='Amount String', compute='_compute_amount_str',store=True)
 
     balance = fields.Float(compute="_compute_balance", store=True)
     description = fields.Html(string="Description")
     customer_id = fields.Integer()
-    customer_name = fields.Many2one('res.partner', string="Customer Name",track_visibility='always')
+    customer_name = fields.Many2one('res.partner', string="Customer Name",tracking=True)
     customer_display = fields.Html(string="Customer", compute="_compute_customer_display")
 
     customer_image = fields.Binary(related='customer_name.image_1920', string="Logo", readonly=True)
@@ -46,7 +45,7 @@ class Balance(models.Model):
             'balance_balance_tags_rel', 
             'balance_id', 'tag_id', 
             string='Tags',
-            track_visibility='always'
+            tracking=True
         )
     payment_type = fields.Selection([
             ('virement', 'Virement'),
@@ -65,8 +64,8 @@ class Balance(models.Model):
         ], string='Status', readonly=True, default='draft')
     
 
-    balance_correction = fields.Boolean(string="Balance Correction", default=False,track_visibility='always')
-    estimated_payment = fields.Boolean(string="Estimated",default=False,track_visibility='always')
+    balance_correction = fields.Boolean(string="Balance Correction", default=False,tracking=True)
+    estimated_payment = fields.Boolean(string="Estimated",default=False,tracking=True)
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company)
     
     tooltip_field = fields.Char(string="Tooltip Field", compute="_compute_tooltip_field")
@@ -79,7 +78,7 @@ class Balance(models.Model):
     transaction_type = fields.Selection([
     ('debit', 'DEBIT'),
     ('credit', 'CREDIT')
-], string='Transaction Type', default=False,track_visibility='always')
+], string='Transaction Type', default=False,tracking=True)
 
 
     month_year = fields.Char(string='Month & Year', compute='_compute_month_year')
@@ -99,10 +98,20 @@ class Balance(models.Model):
     is_month = fields.Boolean(string='Is Month', compute='_compute_is_month' , default=False,store=True)
     is_next_month = fields.Boolean(string='Is Next Month', compute='_compute_is_next_month' , default=False,store=True)
     
+
+    # po number of client 
+    invoice_order_number = fields.Char(string = "Order Number")
+
+
+
     @api.depends('created_datetime')
     def _compute_created_datetime_only_date_part(self):
         for record in self:
             record.created_date_part = fields.Datetime.from_string(record.created_datetime).date()
+
+
+
+
 
     # @api.depends('created_datetime')
     # def _compute_is_week(self):
@@ -392,12 +401,18 @@ class Balance(models.Model):
             'target': 'self',
         }
 
-
-
     @api.model
-    def update_invoice_id(self):
-        for balance_record in self.search([]):  # Loop through all balance records
-            balance_record.amount_str = "{:.2f}".format(balance_record.amount)
+    def update_balance_from_account_move(self):
+        account_move = self.env['account.move']
+
+        for record in self:
+            matched_move = account_move.search([
+                ('name', '=', record.reference),
+            ], limit=1)  
+
+            if matched_move:
+                record.invoice_order_number = matched_move.x_studio_n_de_commande_
+
 
 
     def action_open_attach_statement_line_wizard(self):
@@ -436,5 +451,6 @@ class Balance(models.Model):
         }
 
 
-
-  
+    @api.onchange('reference')
+    def lock_for_editing(self):
+        _logger.info("woooooow woooooooooooow woooooooooooooooooooooooooooooooow")

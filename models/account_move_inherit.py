@@ -18,6 +18,7 @@ class AccountMove(models.Model):
                 # Create values for the balance record
                 vals = {
                     'reference': move.name or '',
+                    'invoice_order_number': move.x_studio_n_de_commande_ or '',
                     'customer_name': move.partner_id.id,
                     'created_datetime':  fields.Datetime.to_string(combined_datetime),
                     'new_due_datetime':  fields.Datetime.to_string(combined_datetime),
