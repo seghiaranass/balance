@@ -37,8 +37,9 @@ class AccountMove(models.Model):
         for move in self:
             if move.state == 'posted' and move.move_type == 'out_invoice':
                 balance_records = self.env['balance'].search([('reference', '=', move.name)])
-                # Unlink (delete) related balance records
-                balance_records.unlink()
+                if balance_records:
+                    # Unlink (delete) related balance records
+                    balance_records.unlink()
 
         # Then, proceed to delete the invoice by calling the super method
         return super(AccountMove, self).unlink()
