@@ -50,8 +50,9 @@ class AccountMove(models.Model):
                 if move.state == 'posted' and move.move_type == 'out_invoice':
 
                     balance_records = self.env['balance'].search([('reference', '=', move.name)])
-                    # Unlink (delete) related balance records
-                    balance_records.unlink()
+                    if balance_records:
+                        # Unlink (delete) related balance records
+                        balance_records.unlink()
 
             # Then, proceed to reset the invoice to draft by calling the super method
             return super(AccountMove, self).button_draft()
