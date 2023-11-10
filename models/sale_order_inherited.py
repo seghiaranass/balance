@@ -6,8 +6,6 @@ _logger = logging.getLogger(__name__)
 class SaleOrderInherit(models.Model):
     _inherit = ['sale.order']
 
-
-
     def write(self, values):
         old_values = {}
         for field in values.keys():
@@ -25,7 +23,7 @@ class SaleOrderInherit(models.Model):
             else:
                 new_value = self[field]
                 
-            if old_value != new_value:
+            if old_value != new_value and self._fields[field].name != "etude_document":
                 field_label = self._fields[field].string or field
                 messages.append(f"{field_label}: {old_value} -> {new_value}")
         
